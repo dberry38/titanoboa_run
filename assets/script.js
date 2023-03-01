@@ -5,10 +5,10 @@ const grid = document.querySelector(".grid");
 const popup = document.querySelector(".popup");
 const playAgain = document.querySelector(".play-again");
 const scoreDisplay = document.querySelector(".score-display");
-const bottom = document.querySelector(".bottom");
-const left = document.querySelector(".left");
-const right = document.querySelector(".right");
-const up = document.querySelector(".up");
+let down = document.querySelector(".bottom");
+let left = document.querySelector(".left");
+let right = document.querySelector(".right");
+let up = document.querySelector(".top");
 let width = 10;
 let currentIndex = 0;
 let appleIndex = 0;
@@ -44,6 +44,7 @@ const startGame = () => {
     let squares = document.querySelectorAll(".grid div");
     randomApple(squares);
     direction = 1;
+    popup.style.display = "none"; //added this myself as it was kinda broken
     scoreDisplay.innerHTML = score;
 
     // sets  snake speed
@@ -60,7 +61,7 @@ function moveOutcome() {
     let squares = document.querySelectorAll(".grid div");
     if (checkForHits(squares)) {
         alert("ya done goofed");
-        popup.getElementsByClassName.display = "flex";
+        popup.style.display = "flex";
         return clearInterval(interval);
     } else {
         moveSnake(squares);
@@ -76,7 +77,78 @@ function moveSnake(squares) {
     squares[currentSnake[0]].classList.add("snake");
 }
 
+function checkForHits(squares) {
+    if (
+        // these first four conditions define contact with the walls
+        (currentSnake[0] + width >= width * width && direction === width) ||
+        (currentSnake[0] % width === width - 1 && direction === 1) ||
+        (currentSnake[0] % width === 0 && direction === -1) ||
+        (currentSnake[0] - width <= 0 && direction === -width) ||
+        // this final condition determines if the snake hurts itself in its confusion
+        squares[currentSnake[0] + direction].classList.contains("snake")
+    ) {
+        // game ends
+        return true;
+    } else {
+        // moveSnake will move the snake forward
+        return false;
+    }
+}
 
+function eatApple(squares, tail) {
+    if (squares[currentSnake[0]].classList.contains("apple")) {
+        squares[currentSnake[0]].classList.remove("apple");
+        squares[tail].classList.add("snake");
+        currentSnake.push(tail);
+        randomApple(squares);
+        score++;
+        scoreDisplay.textContent = score;
+        clearInterval(interval);
+        intervalTime = intervalTime * speed;
+        interval = setInterval(moveOutcome, intervalTime);
+    }
+}
+
+function randomApple(squares) {
+    // my first use of a do while loop yaaaaay ---- loops through random grid points to place a new apple as long as the snake isn't already there
+    do {
+        appleIndex = Math.floor(Math.random() * squares.length);
+    } while (squares[appleIndex].classList.contains("snake"));
+
+    squares[appleIndex].classList.add("apple");
+}
+
+// now setting up controls
+// TODO keyboard controls not working, not even console log
+function control(e) {
+    if (e.key === ArrowRight) {
+        console.log("right");
+        direction = 1; //right
+    } else if (e.keycode === 38) {
+        console.log("up");
+        direction = -width; //pressing up moves snake up ten divs, effectively one grid point up
+    } else if (e.keycode === 37) {
+        console.log("left");
+        direction = -1; //left
+    } else if (e.keycode === 40) {
+        console.log("down");
+        direction = +width;
+    }
+}
+
+// event listeners for mobile
+up.addEventListener("click", () => (direction = -width));
+down.addEventListener("click", () => (direction = +width));
+left.addEventListener("click", () => (direction = -1));
+right.addEventListener("click", () => (direction = 1));
+
+// replay function
+function replay() {
+    grid.innerHTML = "";
+    createBoard();
+    startGame();
+    popup.style.display = "none";
+}
 
 
 
