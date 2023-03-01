@@ -60,7 +60,7 @@ const startGame = () => {
 function moveOutcome() {
   let squares = document.querySelectorAll(".grid div");
   if (checkForHits(squares)) {
-    alert("ya done goofed");
+    // alert("ya done goofed");
     popup.style.display = "flex";
     return clearInterval(interval);
   } else {
@@ -172,10 +172,26 @@ document.addEventListener("keydown", (event) => {
 // }
 
 // event listeners for mobile
-up.addEventListener("click", () => (direction = -width));
-down.addEventListener("click", () => (direction = +width));
-left.addEventListener("click", () => (direction = -1));
-right.addEventListener("click", () => (direction = 1));
+up.addEventListener("click", function () {
+    if (direction != +width) {
+        direction = -width;
+    }
+});
+down.addEventListener("click", function () {
+    if (direction != -width) {
+        direction = +width;
+    }
+});
+left.addEventListener("click", function () {
+    if (direction != 1) {
+        direction = -1;
+    }
+});
+right.addEventListener("click", function () {
+    if (direction != -1) {
+        direction = 1;
+    }
+});
 
 // replay function
 function replay() {

@@ -4,6 +4,22 @@ body {
   background: rgb(212, 211, 211);
 }
 
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  width: 200px;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+
+.btn {
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  width: 100px;
+  height: 100px;
+}
+
 .grid-container {
     width: 100vw;
     min-width: 200px;
@@ -40,8 +56,8 @@ body {
   width: 100px;
   height: 100px;
   position: fixed;
-  top: 100px;
-  left: 100px;
+  top: 115px;
+  left: 137px;
   display: flex;
   justify-content: center;
   align-items: center;
