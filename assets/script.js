@@ -127,19 +127,28 @@ document.addEventListener("keydown", (event) => {
   switch (event.code) {
     case "KeyS":
     case "ArrowDown":
-      direction = +width;
+        // TODO these if statements are meant to prevent the player from turning the snake back on itself. However if the player hits a perpindicular direction, then the reverse direction before the snake moves, both commands will be allowed and the snake will still eat itself.
+      if (direction != -width) {
+        direction = +width;
+      }
       break;
     case "KeyW":
     case "ArrowUp":
-      direction = -width;
+      if (direction != +width) {
+        direction = -width;
+      }
       break;
     case "KeyA":
     case "ArrowLeft":
-      direction = -1;
+      if (direction != +1) {
+        direction = -1;
+      }
       break;
     case "KeyD":
     case "ArrowRight":
-      direction = +1;
+      if (direction != -1) {
+        direction = +1;
+      }
       break;
   }
 });
@@ -177,3 +186,10 @@ function replay() {
 }
 
 // extent of tutorial
+
+
+// TODO add localstorage for high scores
+// TODO add a highscore page (modal?)
+// TODO add custom grid size
+// TODO add custom grid layout????? Probably more like new levels
+// TODO add difficulty selection (change increase in speed per "apple")
