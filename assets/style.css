@@ -52,23 +52,30 @@ body {
 }
 
 .popup {
-  background: rgb(32, 31, 31);
-  width: 100px;
-  height: 100px;
+  background: rgb(32, 31, 31, 0.75);
+  width: 100vw;
+  height: 200px;
   position: fixed;
-  top: 115px;
-  left: 137px;
+  top: 150px;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* i added */
-  transition: 0.5s;
 }
 /* extent of tutorial */
 
-.popup:hover {
-  background: rgb(197, 0, 0);
+
+.play-again {
+  height: 50px;
+  width: 150px;
+  border-radius: 3.5vw / 25%;
+  background: rgb(2, 189, 151);
+  transition: 0.5s;
+}
+
+.play-again:hover {
+  background: rgb(187, 0, 0);
+  color: white;
 }
 
 /* TODO mobile first design and responsive styling */
