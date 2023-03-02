@@ -83,12 +83,27 @@ function moveSnake(squares) {
 }
 
 function checkForHits(squares) {
+
+    // if (currentSnake[0] + width >= width * width && direction === width) {
+    //     console.log("snake hit bottom wall")
+    // } else if (currentSnake[0] % width === width - 1 && direction === 1) {
+    //     console.log("snake hit right wall")
+    // } else if (currentSnake[0] % width === 0 && direction === -1) {
+    //     console.log("snake hit left wall")
+    // } else if (currentSnake[0] - width <= -1 && direction === -width) {
+    //     console.log("snake hit top wall")
+    // } else if (squares[currentSnake[0] + direction].classList.contains("snake")) {
+    //     console.log("snake ate itself")
+    // }
+    // ^^^^ this big ugly was used for debugging ^^^^
+
   if (
     // these first four conditions define contact with the walls
     (currentSnake[0] + width >= width * width && direction === width) ||
     (currentSnake[0] % width === width - 1 && direction === 1) ||
     (currentSnake[0] % width === 0 && direction === -1) ||
-    (currentSnake[0] - width <= 0 && direction === -width) ||
+    // originally width <= 0, but was causing issues with the first block registering a hit to the top wall when the snake enters the first block from beneath. fixed with -1.
+    (currentSnake[0] - width <= -1 && direction === -width) ||
     // this final condition determines if the snake hurts itself in its confusion
     squares[currentSnake[0] + direction].classList.contains("snake")
   ) {
