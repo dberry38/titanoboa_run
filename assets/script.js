@@ -7,6 +7,12 @@ const snekScream = document.getElementById("snek-scream");
 snekScream.volume = 0.4;
 const sadSnek = document.getElementById("sad-snek");
 sadSnek.volume = 0.6;
+const easyMusic = document.getElementById("easy-music");
+easyMusic.volume = 0.6;
+const mediumMusic = document.getElementById("medium-music");
+easyMusic.volume = 0.6;
+const hardMusic = document.getElementById("hard-music");
+easyMusic.volume = 0.6;
 
 const emoji = document.getElementById("plead");
 
@@ -77,12 +83,24 @@ const startGame = () => {
   currentIndex = 0;
   currentSnake.forEach((index) => squares[index].classList.add("snake"));
   interval = setInterval(moveOutcome, intervalTime);
+  musicMatch();
 };
+
+const musicMatch = () => {
+  if (score < 6) {
+    easyMusic.play();
+  } else if (score >= 6 && score < 18) {
+    easyMusic.pause();
+    mediumMusic.play();
+  } else if (score >= 18) {
+    mediumMusic.pause();
+    hardMusic.play();
+  }
+}
 
 function moveOutcome() {
   let squares = document.querySelectorAll(".grid div");
   if (checkForHits(squares)) {
-    // alert("ya done goofed");
     popup.style.display = "flex";
     emoji.innerHTML = "🥺";
     return clearInterval(interval);
@@ -122,6 +140,9 @@ function checkForHits(squares) {
     // originally width <= 0, but was causing issues with the first block registering a hit to the top wall when the snake enters the first block from beneath. fixed with -1.
     (currentSnake[0] - width <= -1 && direction === -width)
   ) {
+    easyMusic.pause();
+    mediumMusic.pause();
+    hardMusic.pause();
     wallBoom.play();
     deathMsg.innerHTML = "you bumped a wall and exploded";
     // game ends
@@ -130,6 +151,9 @@ function checkForHits(squares) {
       // this final condition determines if the snake hurts itself in its confusion
       squares[currentSnake[0] + direction].classList.contains("snake")
     ) {
+      easyMusic.pause();
+      mediumMusic.pause();
+      hardMusic.pause();
       snekScream.play();
       deathMsg.innerHTML = "you chomped on yourself and died horribly"
       // game ends
@@ -154,6 +178,7 @@ function eatApple(squares, tail) {
 
     randomApple(squares);
     score++;
+    musicMatch();
     scoreDisplay.textContent = score;
     clearInterval(interval);
     intervalTime = intervalTime * speed;
