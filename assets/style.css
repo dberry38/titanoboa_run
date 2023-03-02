@@ -3,6 +3,11 @@
 body {
   background: rgb(212, 211, 211);
 }
+.container {
+  scale: 1.38;
+  position: relative;
+  top: 10rem;
+}
 
 .buttons {
   display: flex;
