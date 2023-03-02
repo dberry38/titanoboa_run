@@ -37,6 +37,7 @@ let boost = document.querySelector(".boost-btn");
 let width = 10;
 let currentIndex = 0;
 let appleIndex = 0;
+let direction = 0;
 
 let score = 0;
 let speed = 0.9;
@@ -277,6 +278,7 @@ right.addEventListener("click", function () {
 
 
 // GREAT SUCCESS --- this is a much simpler method than I was led to believe would be necessary.
+// the success was actually just in the desktop browser, mobile needs more stuff i guess
 let boostState;
 
 boost.addEventListener("mousedown", sendIt);
@@ -299,11 +301,82 @@ boost.addEventListener("touchend", noBoost);
 function noBoost() {
   if (boostState) {
     clearInterval(interval);
-    intervalTime = intervalTime * 2;
+    intervalTime = intervalTime * 2.0;
     interval = setInterval(moveOutcome, intervalTime);
     boostState = false;
   }
 };
+
+// furthur meditations into presshold events
+
+    let timerID;
+    let counter = 0;
+
+    let pressHoldEvent = new CustomEvent("pressHold");
+
+    // Increase or decreae value to adjust how long
+    // one should keep pressing down before the pressHold
+    // event fires
+    let pressHoldDuration = 5;
+
+    // Listening for the mouse and touch events    
+    boost.addEventListener("mousedown", pressingDown, false);
+    boost.addEventListener("mouseup", notPressingDown, false);
+    boost.addEventListener("mouseleave", notPressingDown, false);
+
+    boost.addEventListener("touchstart", pressingDown, false);
+    boost.addEventListener("touchend", notPressingDown, false);
+
+    // Listening for our custom pressHold event
+    boost.addEventListener("pressHold", doSomething, false);
+
+    function pressingDown(e) {
+      // Start the timer
+      requestAnimationFrame(timer);
+
+      e.preventDefault();
+
+      console.log("Pressing!");
+    }
+
+    function notPressingDown(e) {
+      // Stop the timer
+      cancelAnimationFrame(timerID);
+      counter = 0;
+      intervalTime = intervalTime * 2.0;
+      interval = setInterval(moveOutcome, intervalTime);
+      boostState = false;
+
+      console.log("Not pressing!");
+    }
+
+    //
+    // Runs at 60fps when you are pressing down
+    //
+    function timer() {
+      console.log("Timer tick!");
+
+      if (counter < pressHoldDuration) {
+        timerID = requestAnimationFrame(timer);
+        counter++;
+      } else {
+        console.log("Press threshold reached!");
+        boost.dispatchEvent(pressHoldEvent);
+      }
+    }
+
+    function doSomething(e) {
+      console.log("pressHold event fired!");
+      clearInterval(interval);
+      intervalTime = intervalTime * 0.5;
+      interval = setInterval(moveOutcome, intervalTime);
+    }
+
+
+
+
+
+
 
 
 
