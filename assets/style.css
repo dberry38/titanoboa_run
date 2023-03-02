@@ -59,8 +59,7 @@ body {
 }
 
 .apple {
-  background: yellow;
-  border-radius: 20px;
+  background-image: url("./trans-backg-ittybittybug.png");
 }
 
 .popup {
