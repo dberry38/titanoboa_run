@@ -112,7 +112,7 @@ body {
   font-size: 8px;
   height: 38px;
   width: 100px;
-  border-radius: 3.5vw / 25%;
+  border-radius: 2vw / 25%;
   background: rgb(2, 189, 151);
   transition: 0.5s;
 }
@@ -121,6 +121,14 @@ body {
   font-size: 16px;
   position: relative;
   top: 5px;
+}
+
+.pause {
+  position: relative;
+  top: 5.2rem;
+  font-size: 6px;
+  border-radius: 1vw / 25%;
+  background: rgb(2, 189, 151);
 }
 
 /* TODO mobile first design and responsive styling */

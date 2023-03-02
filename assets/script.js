@@ -25,6 +25,7 @@ const popup = document.querySelector(".popup");
 const deathMsg = document.querySelector(".death-msg");
 const playAgain = document.querySelector(".play-again");
 const giveUp = document.querySelector(".give-up");
+const pauseBtn = document.querySelector(".pause");
 const scoreDisplay = document.querySelector(".score-display");
 
 let down = document.querySelector(".bottom");
@@ -51,11 +52,18 @@ document.addEventListener("DOMContentLoaded", function () {
   // event listeners are now towards the bottom
   createBoard();
   startGame();
+  pauseBtn.style.display = "none";
   playAgain.addEventListener("click", replay);
   giveUp.addEventListener("click", function () {
     emoji.innerHTML = "😭";
     sadSnek.play();
+    pauseBtn.style.display = "flex";
   });
+  pauseBtn.addEventListener("click", function () {
+    sadSnek.pause();
+    pauseBtn.style.display = "none";
+    emoji.innerHTML = "🥺";
+  })
 });
 
 const createBoard = () => {
@@ -89,10 +97,10 @@ const startGame = () => {
 const musicMatch = () => {
   if (score < 6) {
     easyMusic.play();
-  } else if (score >= 6 && score < 18) {
+  } else if (score >= 6 && score < 16) {
     easyMusic.pause();
     mediumMusic.play();
-  } else if (score >= 18) {
+  } else if (score >= 16) {
     mediumMusic.pause();
     hardMusic.play();
   }
@@ -188,6 +196,7 @@ function eatApple(squares, tail) {
 
 function randomApple(squares) {
   // my first use of a do while loop yaaaaay ---- loops through random grid points to place a new apple as long as the snake isn't already there
+  // TODO this do-while loop is not working, I have seen the apple spawn on the snake more than once, especially at start of game
   do {
     appleIndex = Math.floor(Math.random() * squares.length);
   } while (squares[appleIndex].classList.contains("snake"));
@@ -230,24 +239,6 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-// now setting up controls
-// ---- keyboard controls not working, not even console log
-// function control(e) {
-//   if (e.keycode === 39) {
-//     console.log("right");
-//     direction = 1; //right
-//   } else if (e.keycode === 38) {
-//     console.log("up");
-//     direction = -width; //pressing up moves snake up ten divs, effectively one grid point up
-//   } else if (e.keycode === 37) {
-//     console.log("left");
-//     direction = -1; //left
-//   } else if (e.keycode === 40) {
-//     console.log("down");
-//     direction = +width;
-//   }
-// }
-
 // event listeners for mobile
 up.addEventListener("click", function () {
   if (direction != +width) {
@@ -277,6 +268,7 @@ function replay() {
   createBoard();
   startGame();
   popup.style.display = "none";
+  pauseBtn.style.display = "none";
 }
 
 // extent of tutorial
