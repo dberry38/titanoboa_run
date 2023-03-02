@@ -279,7 +279,10 @@ right.addEventListener("click", function () {
 // GREAT SUCCESS --- this is a much simpler method than I was led to believe would be necessary.
 let boostState;
 
-boost.addEventListener("mousedown", function (e) {
+boost.addEventListener("mousedown", sendIt);
+boost.addEventListener("touchstart", sendIt);
+
+function sendIt(e) {
  e.preventDefault();
  if (!boostState) {
    boostState = true;
@@ -287,10 +290,11 @@ boost.addEventListener("mousedown", function (e) {
    intervalTime = intervalTime * 0.5;
    interval = setInterval(moveOutcome, intervalTime);
  }
-});
+};
 
 boost.addEventListener("mouseup", noBoost);
 boost.addEventListener("mouseleave", noBoost);
+boost.addEventListener("touchend", noBoost);
 
 function noBoost() {
   if (boostState) {
