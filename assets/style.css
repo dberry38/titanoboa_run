@@ -4,6 +4,7 @@ body {
   background: rgb(212, 211, 211);
 }
 .container {
+  /* scale kind of works, but is shifting the container when the popup becomes visible, reason unknown */
   scale: 1.38;
   position: relative;
   top: 10rem;
@@ -100,6 +101,18 @@ body {
 .play-again:hover {
   background: rgb(187, 0, 0);
   color: white;
+}
+
+.give-up {
+  position: relative;
+  top: 5rem;
+  font-size: 8px;
+  height: 38px;
+  width: 100px;
+  border-radius: 3.5vw / 25%;
+  background: rgb(2, 189, 151);
+  transition: 0.5s;
+
 }
 
 /* TODO mobile first design and responsive styling */

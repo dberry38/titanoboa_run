@@ -1,10 +1,12 @@
 // now we experiment with sound
 const chomp = document.getElementById("chompski");
-chomp.volume = 0.25;
+chomp.volume = 0.1;
 const wallBoom = document.getElementById("wall-boom");
-wallBoom.volume = 0.6;
+wallBoom.volume = 0.4;
 const snekScream = document.getElementById("snek-scream");
-snekScream.volume = 0.6;
+snekScream.volume = 0.4;
+const sadSnek = document.getElementById("sad-snek");
+sadSnek.volume = 0.6;
 
 
 // following freeCodeCamp's snake game tutorial
@@ -14,6 +16,7 @@ const grid = document.querySelector(".grid");
 const popup = document.querySelector(".popup");
 const deathMsg = document.querySelector(".death-msg");
 const playAgain = document.querySelector(".play-again");
+const giveUp = document.querySelector(".give-up");
 const scoreDisplay = document.querySelector(".score-display");
 
 let down = document.querySelector(".bottom");
@@ -24,7 +27,6 @@ let up = document.querySelector(".top");
 let width = 10;
 let currentIndex = 0;
 let appleIndex = 0;
-let direction = 1;
 
 let score = 0;
 let speed = 0.9;
@@ -42,6 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
   createBoard();
   startGame();
   playAgain.addEventListener("click", replay);
+  giveUp.addEventListener("click", function () {
+    sadSnek.play();
+  });
 });
 
 const createBoard = () => {
@@ -238,6 +243,7 @@ right.addEventListener("click", function () {
 
 // replay function
 function replay() {
+  sadSnek.pause();
   grid.innerHTML = "";
   createBoard();
   startGame();
