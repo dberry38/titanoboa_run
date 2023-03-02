@@ -26,6 +26,38 @@ body {
   height: 100px;
 }
 
+.top {
+  background:rgb(159, 171, 32);
+}
+
+.top:active {
+  background:rgb(227, 244, 42);
+}
+
+.right {
+  background:rgb(27, 158, 77);
+}
+
+.right:active {
+  background:rgb(40, 227, 112);
+}
+
+.left {
+  background:rgb(25, 114, 162);
+}
+
+.left:active {
+  background:rgb(38, 169, 240);
+}
+
+.bottom {
+  background:rgb(145, 23, 23);
+}
+
+.bottom:active {
+  background:rgb(225, 40, 40);
+}
+
 .title {
   display: flex;
   text-align: center;
@@ -79,7 +111,7 @@ body {
   margin: auto;
   height: 40px;
   width: 200px;
-  background-color: rgb(255, 131, 36);
+  background-color: rgb(222, 96, 29);
 }
 
 .popup {
@@ -130,10 +162,12 @@ body {
   transition: 0.5s;
 }
 
-#plead {
+#emoji {
   font-size: 16px;
-  position: relative;
-  top: 5px;
+}
+
+#plead {
+  font-size: 8px;
 }
 
 .pause {

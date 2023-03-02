@@ -14,7 +14,8 @@ easyMusic.volume = 0.6;
 const hardMusic = document.getElementById("hard-music");
 easyMusic.volume = 0.6;
 
-const emoji = document.getElementById("plead");
+const emoji = document.getElementById("emoji");
+const plead = document.getElementById("plead");
 
 
 // following freeCodeCamp's snake game tutorial
@@ -101,7 +102,6 @@ function moveOutcome() {
   let squares = document.querySelectorAll(".grid div");
   if (checkForHits(squares)) {
     popup.style.display = "flex";
-    emoji.innerHTML = "🥺";
     return clearInterval(interval);
   } else {
     moveSnake(squares);
@@ -312,8 +312,6 @@ let boostState;
       requestAnimationFrame(timer);
 
       e.preventDefault();
-
-      console.log("Pressing!");
     }
 
     function notPressingDown(e) {
@@ -322,52 +320,41 @@ let boostState;
       counter = 0;
       if (boostState) {
         clearInterval(interval);
-        console.log("removing boost");
+        boost.style.background = "rgb(222, 96, 29)";
         intervalTime = intervalTime * 2.0;
         interval = setInterval(moveOutcome, intervalTime);
         boostState = false;
       }
-
-      console.log("Not pressing!");
     }
 
     //
     // Runs at 60fps when you are pressing down
     //
     function timer() {
-      console.log("Timer tick!");
 
       if (counter < pressHoldDuration) {
         timerID = requestAnimationFrame(timer);
         counter++;
       } else {
-        console.log("Press threshold reached!");
         boost.dispatchEvent(pressHoldEvent);
       }
     }
 
     function doSomething(e) {
-      console.log("pressHold event fired!");
       if (!boostState) {
         clearInterval(interval);
-        console.log("boosting");
+        boost.style.background = "rgb(254, 164, 45)";
         intervalTime = intervalTime * 0.5;
         interval = setInterval(moveOutcome, intervalTime);
         boostState = true;
       }
     }
 // extent of borrowed code from kirupa ^^^^^^^^^^^^^^^^
-
-
-
-
-
-
-
-
+// TODO create a setInterval to prevent play again button from being tapped immediately after game end
 playAgain.addEventListener("click", replay);
 
 giveUp.addEventListener("click", function () {
+  plead.innerHTML = " I can't believe you've done this";
   emoji.innerHTML = "😭";
   sadSnek.play();
   pauseBtn.style.display = "flex";
@@ -376,6 +363,7 @@ pauseBtn.addEventListener("click", function () {
   sadSnek.pause();
   pauseBtn.style.display = "none";
   emoji.innerHTML = "🥺";
+  plead.innerHTML = " give up?";
 });
 
 // replay function
@@ -393,5 +381,5 @@ function replay() {
 // TODO add localstorage for high scores
 // TODO add a highscore page (modal?)
 // TODO add custom grid size
-// TODO add custom grid layout????? Probably more like new levels
-// TODO add difficulty selection (change increase in speed per "apple")
+// TODO??? add custom grid layout,,, Probably more like new levels
+// TODO??? add difficulty selection (change increase in speed per "apple")

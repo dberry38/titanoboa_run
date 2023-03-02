@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Titanoboa Run</title>
-    <link
+    <!-- <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
       crossorigin="anonymous"
-    />
+    /> -->
     <link rel="stylesheet" href="./assets/style.css" />
     <script defer src="./assets/script.js"></script>
   </head>
@@ -22,7 +22,7 @@
     <div class="score-display"></div>
     <div class="grid"></div>
 
-    <!-- inserting audio as html elements here because apparently that's the easiest way -->
+    <!-- inserting audio as html elements here because apparently that's the easiest way to access them from the script file, can't just use the filepath url, like come on. -->
     <audio id="chompski">
       <source src="./assets/audio/teeth-chomp-fx.mp3" type="audio/mp3">
       something went wrong
@@ -64,7 +64,9 @@
     <div class="popup">
       <p class="death-msg"></p>
       <button class="play-again">play again</button>
-      <button class="give-up"><p id="plead">🥺</p> give up?</button>
+      <button class="give-up">
+        <p id="emoji">🥺</p><p id="plead"> give up?</p>
+      </button>
       <button class="pause">(pause)</button>
     </div>
     <!-- extent of tutorial -->
