@@ -1,10 +1,8 @@
 // now we experiment with sound
-import {Howl, Howler} from 'howler';
-
-const chomp = new Howl({
-    src: ["./audio/"]
-})
-
+const sound = new Audio();
+const chomp = () => {
+  sound.src = "";
+};
 
 // following freeCodeCamp's snake game tutorial
 
@@ -35,8 +33,8 @@ let interval = 0;
 document.addEventListener("DOMContentLoaded", function () {
   // setting up keyboard control with keyup listener
   // document.addEventListener("keyup", control);
-    // ^^^^ had to look into another method of doing this ^^^^
-    // event listeners are now towards the bottom
+  // ^^^^ had to look into another method of doing this ^^^^
+  // event listeners are now towards the bottom
   createBoard();
   startGame();
   playAgain.addEventListener("click", replay);
@@ -91,19 +89,18 @@ function moveSnake(squares) {
 }
 
 function checkForHits(squares) {
-
-    // if (currentSnake[0] + width >= width * width && direction === width) {
-    //     console.log("snake hit bottom wall")
-    // } else if (currentSnake[0] % width === width - 1 && direction === 1) {
-    //     console.log("snake hit right wall")
-    // } else if (currentSnake[0] % width === 0 && direction === -1) {
-    //     console.log("snake hit left wall")
-    // } else if (currentSnake[0] - width <= -1 && direction === -width) {
-    //     console.log("snake hit top wall")
-    // } else if (squares[currentSnake[0] + direction].classList.contains("snake")) {
-    //     console.log("snake ate itself")
-    // }
-    // ^^^^ this big ugly was used for debugging ^^^^
+  // if (currentSnake[0] + width >= width * width && direction === width) {
+  //     console.log("snake hit bottom wall")
+  // } else if (currentSnake[0] % width === width - 1 && direction === 1) {
+  //     console.log("snake hit right wall")
+  // } else if (currentSnake[0] % width === 0 && direction === -1) {
+  //     console.log("snake hit left wall")
+  // } else if (currentSnake[0] - width <= -1 && direction === -width) {
+  //     console.log("snake hit top wall")
+  // } else if (squares[currentSnake[0] + direction].classList.contains("snake")) {
+  //     console.log("snake ate itself")
+  // }
+  // ^^^^ this big ugly was used for debugging ^^^^
 
   if (
     // these first four conditions define contact with the walls
@@ -111,16 +108,22 @@ function checkForHits(squares) {
     (currentSnake[0] % width === width - 1 && direction === 1) ||
     (currentSnake[0] % width === 0 && direction === -1) ||
     // originally width <= 0, but was causing issues with the first block registering a hit to the top wall when the snake enters the first block from beneath. fixed with -1.
-    (currentSnake[0] - width <= -1 && direction === -width) ||
-    // this final condition determines if the snake hurts itself in its confusion
-    squares[currentSnake[0] + direction].classList.contains("snake")
+    (currentSnake[0] - width <= -1 && direction === -width)
   ) {
+    document.getElementById("wall-boom").play();
     // game ends
     return true;
-  } else {
-    // moveSnake will move the snake forward
-    return false;
-  }
+  } else if (
+      // this final condition determines if the snake hurts itself in its confusion
+      squares[currentSnake[0] + direction].classList.contains("snake")
+    ) {
+      document.getElementById("snek-scream").play();
+      // game ends
+      return true;
+    } else {
+      // moveSnake will move the snake forward
+      return false;
+    }
 }
 
 function eatApple(squares, tail) {
@@ -129,8 +132,11 @@ function eatApple(squares, tail) {
     squares[tail].classList.add("snake");
     currentSnake.push(tail);
 
-// this is where we try audio for the fisrt time bear with us
+    // this is where we try audio for the fisrt time bear with us
+    // chomp.play();
 
+    // trying a different way
+    document.getElementById("chompski").play();
 
     randomApple(squares);
     score++;
@@ -159,7 +165,7 @@ document.addEventListener("keydown", (event) => {
   switch (event.code) {
     case "KeyS":
     case "ArrowDown":
-        // TODO these if statements are meant to prevent the player from turning the snake back on itself. However if the player hits a perpindicular direction, then the reverse direction before the snake moves, both commands will be allowed and the snake will still eat itself.
+      // TODO these if statements are meant to prevent the player from turning the snake back on itself. However if the player hits a perpindicular direction, then the reverse direction before the snake moves, both commands will be allowed and the snake will still eat itself.
       if (direction != -width) {
         direction = +width;
       }
@@ -205,24 +211,24 @@ document.addEventListener("keydown", (event) => {
 
 // event listeners for mobile
 up.addEventListener("click", function () {
-    if (direction != +width) {
-        direction = -width;
-    }
+  if (direction != +width) {
+    direction = -width;
+  }
 });
 down.addEventListener("click", function () {
-    if (direction != -width) {
-        direction = +width;
-    }
+  if (direction != -width) {
+    direction = +width;
+  }
 });
 left.addEventListener("click", function () {
-    if (direction != 1) {
-        direction = -1;
-    }
+  if (direction != 1) {
+    direction = -1;
+  }
 });
 right.addEventListener("click", function () {
-    if (direction != -1) {
-        direction = 1;
-    }
+  if (direction != -1) {
+    direction = 1;
+  }
 });
 
 // replay function
@@ -234,7 +240,6 @@ function replay() {
 }
 
 // extent of tutorial
-
 
 // TODO add localstorage for high scores
 // TODO add a highscore page (modal?)
