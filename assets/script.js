@@ -1,8 +1,11 @@
 // now we experiment with sound
-const sound = new Audio();
-const chomp = () => {
-  sound.src = "";
-};
+const chomp = document.getElementById("chompski");
+chomp.volume = 0.25;
+const wallBoom = document.getElementById("wall-boom");
+wallBoom.volume = 0.6;
+const snekScream = document.getElementById("snek-scream");
+snekScream.volume = 0.6;
+
 
 // following freeCodeCamp's snake game tutorial
 
@@ -86,7 +89,6 @@ function moveSnake(squares) {
   // movement ends here, then check for apples
   eatApple(squares, tail);
   squares[currentSnake[0]].classList.add("snake");
-  console.log(currentSnake);
 }
 
 function checkForHits(squares) {
@@ -111,7 +113,7 @@ function checkForHits(squares) {
     // originally width <= 0, but was causing issues with the first block registering a hit to the top wall when the snake enters the first block from beneath. fixed with -1.
     (currentSnake[0] - width <= -1 && direction === -width)
   ) {
-    document.getElementById("wall-boom").play();
+    wallBoom.play();
     deathMsg.innerHTML = "you bumped a wall and exploded";
     // game ends
     return true;
@@ -119,7 +121,7 @@ function checkForHits(squares) {
       // this final condition determines if the snake hurts itself in its confusion
       squares[currentSnake[0] + direction].classList.contains("snake")
     ) {
-      document.getElementById("snek-scream").play();
+      snekScream.play();
       deathMsg.innerHTML = "you chomped on yourself and died horribly"
       // game ends
       return true;
@@ -139,7 +141,7 @@ function eatApple(squares, tail) {
     // chomp.play();
 
     // trying a different way
-    document.getElementById("chompski").play();
+    chomp.play();
 
     randomApple(squares);
     score++;
