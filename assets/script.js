@@ -9,6 +9,7 @@ const chomp = () => {
 // establishing a ton of variables
 const grid = document.querySelector(".grid");
 const popup = document.querySelector(".popup");
+const deathMsg = document.querySelector(".death-msg");
 const playAgain = document.querySelector(".play-again");
 const scoreDisplay = document.querySelector(".score-display");
 
@@ -111,6 +112,7 @@ function checkForHits(squares) {
     (currentSnake[0] - width <= -1 && direction === -width)
   ) {
     document.getElementById("wall-boom").play();
+    deathMsg.innerHTML = "you bumped a wall and exploded";
     // game ends
     return true;
   } else if (
@@ -118,6 +120,7 @@ function checkForHits(squares) {
       squares[currentSnake[0] + direction].classList.contains("snake")
     ) {
       document.getElementById("snek-scream").play();
+      deathMsg.innerHTML = "you chomped on yourself and died horribly"
       // game ends
       return true;
     } else {
