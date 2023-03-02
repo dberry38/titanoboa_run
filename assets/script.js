@@ -1,3 +1,11 @@
+// now we experiment with sound
+import {Howl, Howler} from 'howler';
+
+const chomp = new Howl({
+    src: ["./audio/"]
+})
+
+
 // following freeCodeCamp's snake game tutorial
 
 // establishing a ton of variables
@@ -14,11 +22,10 @@ let up = document.querySelector(".top");
 let width = 10;
 let currentIndex = 0;
 let appleIndex = 0;
-let curentSnake = [2, 1, 0];
-
 let direction = 1;
+
 let score = 0;
-let speed = 0.85;
+let speed = 0.9;
 let intervalTime = 0;
 let interval = 0;
 
@@ -80,6 +87,7 @@ function moveSnake(squares) {
   // movement ends here, then check for apples
   eatApple(squares, tail);
   squares[currentSnake[0]].classList.add("snake");
+  console.log(currentSnake);
 }
 
 function checkForHits(squares) {
@@ -120,6 +128,10 @@ function eatApple(squares, tail) {
     squares[currentSnake[0]].classList.remove("apple");
     squares[tail].classList.add("snake");
     currentSnake.push(tail);
+
+// this is where we try audio for the fisrt time bear with us
+
+
     randomApple(squares);
     score++;
     scoreDisplay.textContent = score;

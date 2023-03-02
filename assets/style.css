@@ -42,6 +42,7 @@ body {
   width: 202px;
   height: 201px;
   border: 1px solid red;
+  background-color:rgb(177, 143, 95);
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
