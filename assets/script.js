@@ -294,7 +294,7 @@ let boostState;
     // Increase or decreae value to adjust how long
     // one should keep pressing down before the pressHold
     // event fires
-    let pressHoldDuration = 50;
+    let pressHoldDuration = 5;
 
     // Listening for the mouse and touch events    
     boost.addEventListener("mousedown", pressingDown, false);
@@ -322,10 +322,10 @@ let boostState;
       counter = 0;
       if (boostState) {
         clearInterval(interval);
-        boostState = false;
         console.log("removing boost");
         intervalTime = intervalTime * 2.0;
         interval = setInterval(moveOutcome, intervalTime);
+        boostState = false;
       }
 
       console.log("Not pressing!");
@@ -350,10 +350,10 @@ let boostState;
       console.log("pressHold event fired!");
       if (!boostState) {
         clearInterval(interval);
-        boostState = true;
         console.log("boosting");
         intervalTime = intervalTime * 0.5;
         interval = setInterval(moveOutcome, intervalTime);
+        boostState = true;
       }
     }
 // extent of borrowed code from kirupa ^^^^^^^^^^^^^^^^
