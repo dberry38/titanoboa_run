@@ -8,6 +8,8 @@ snekScream.volume = 0.4;
 const sadSnek = document.getElementById("sad-snek");
 sadSnek.volume = 0.6;
 
+const emoji = document.getElementById("plead");
+
 
 // following freeCodeCamp's snake game tutorial
 
@@ -45,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
   startGame();
   playAgain.addEventListener("click", replay);
   giveUp.addEventListener("click", function () {
+    emoji.innerHTML = "😭";
     sadSnek.play();
   });
 });
@@ -81,6 +84,7 @@ function moveOutcome() {
   if (checkForHits(squares)) {
     // alert("ya done goofed");
     popup.style.display = "flex";
+    emoji.innerHTML = "🥺";
     return clearInterval(interval);
   } else {
     moveSnake(squares);
