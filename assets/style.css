@@ -20,6 +20,18 @@ body {
   height: 100px;
 }
 
+.title {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.score-display {
+  width: 200px;
+  margin: 0.5rem auto;
+  font-size: 20px;
+}
+
 .grid-container {
     width: 100vw;
     min-width: 200px;
@@ -38,7 +50,7 @@ body {
 .grid div {
   width: 20px;
   height: 20px;
-  border:1px black solid;
+  border: 0.5px black solid;
   box-sizing:border-box
 }
 
@@ -53,10 +65,10 @@ body {
 
 .popup {
   background: rgb(32, 31, 31, 0.75);
-  width: 100vw;
-  height: 200px;
-  position: fixed;
-  top: 150px;
+  width: 202px;
+  height: 420px;
+  position: relative;
+  bottom: 420px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
