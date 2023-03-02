@@ -54,17 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
   createBoard();
   startGame();
   pauseBtn.style.display = "none";
-  playAgain.addEventListener("click", replay);
-  giveUp.addEventListener("click", function () {
-    emoji.innerHTML = "😭";
-    sadSnek.play();
-    pauseBtn.style.display = "flex";
-  });
-  pauseBtn.addEventListener("click", function () {
-    sadSnek.pause();
-    pauseBtn.style.display = "none";
-    emoji.innerHTML = "🥺";
-  })
 });
 
 const createBoard = () => {
@@ -287,77 +276,45 @@ right.addEventListener("click", function () {
 });
 
 
-// This chunk was taken from kirupa.com/html5/press_and_hold.htm
-// allows boost button to function as desired, only boosted when pressing button, no boost when you let go.
-let timerID;
-let counter = 0;
+// GREAT SUCCESS --- this is a much simpler method than I was led to believe would be necessary.
+let boostState;
 
-let pressHoldEvent = new CustomEvent("pressHold");
+boost.addEventListener("mousedown", function (e) {
+ e.preventDefault();
+ if (!boostState) {
+   boostState = true;
+   clearInterval(interval);
+   intervalTime = intervalTime * 0.5;
+   interval = setInterval(moveOutcome, intervalTime);
+ }
+});
 
-// Increase or decreae value to adjust how long
-// one should keep pressing down before the pressHold
-// event fires
-let pressHoldDuration = 5;
+boost.addEventListener("mouseup", noBoost);
+boost.addEventListener("mouseleave", noBoost);
 
-// Listening for the mouse and touch events    
-boost.addEventListener("mousedown", pressingDown, false);
-boost.addEventListener("mouseup", notPressingDown, false);
-boost.addEventListener("mouseleave", notPressingDown, false);
-
-boost.addEventListener("touchstart", pressingDown, false);
-boost.addEventListener("touchend", notPressingDown, false);
-
-// Listening for our custom pressHold event
-boost.addEventListener("pressHold", doSomething, false);
-
-function pressingDown(e) {
-  // Start the timer
-  requestAnimationFrame(timer);
-
-  e.preventDefault();
-
-  console.log("Pressing!");
-}
-
-function notPressingDown(e) {
-  // Stop the timer
-  cancelAnimationFrame(timerID);
-  counter = 0;
-
-  console.log("Not pressing!");
-  // resets the interval to normal
-  clearInterval(interval);
-  intervalTime = intervalTime * 2;
-  interval = setInterval(moveOutcome, intervalTime);
-}
-
-//
-// Runs at 60fps when you are pressing down
-//
-function timer() {
-  console.log("Timer tick!");
-
-  if (counter < pressHoldDuration) {
-    timerID = requestAnimationFrame(timer);
-    counter++;
-  } else {
-    console.log("Press threshold reached!");
-    boost.dispatchEvent(pressHoldEvent);
+function noBoost() {
+  if (boostState) {
+    clearInterval(interval);
+    intervalTime = intervalTime * 2;
+    interval = setInterval(moveOutcome, intervalTime);
+    boostState = false;
   }
-}
-
-function doSomething(e) {
-  console.log("pressHold event fired!");
-  // doubles the interval to boost the snake while holding the boost button down
-      clearInterval(interval);
-      intervalTime = intervalTime * 0.5;
-      interval = setInterval(moveOutcome, intervalTime); 
-}
-// ^^^^ extent of kirupa code block ^^^^
+};
 
 
 
+playAgain.addEventListener("click", replay);
 
+giveUp.addEventListener("click", function () {
+  emoji.innerHTML = "😭";
+  sadSnek.play();
+  pauseBtn.style.display = "flex";
+});
+pauseBtn.addEventListener("click", function () {
+  sadSnek.pause();
+  pauseBtn.style.display = "none";
+  emoji.innerHTML = "🥺";
+});
 
 // replay function
 function replay() {
