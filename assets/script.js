@@ -5,26 +5,31 @@ const grid = document.querySelector(".grid");
 const popup = document.querySelector(".popup");
 const playAgain = document.querySelector(".play-again");
 const scoreDisplay = document.querySelector(".score-display");
+
 let down = document.querySelector(".bottom");
 let left = document.querySelector(".left");
 let right = document.querySelector(".right");
 let up = document.querySelector(".top");
+
 let width = 10;
 let currentIndex = 0;
 let appleIndex = 0;
 let curentSnake = [2, 1, 0];
+
 let direction = 1;
 let score = 0;
-let speed = 0.8;
+let speed = 0.85;
 let intervalTime = 0;
 let interval = 0;
 
 // starting functions
 
-// DOMContentLoaded activates this listener as sson as the html content is loaded on screen
+// DOMContentLoaded activates this listener as soon as the html content is loaded on screen
 document.addEventListener("DOMContentLoaded", function () {
   // setting up keyboard control with keyup listener
   // document.addEventListener("keyup", control);
+    // ^^^^ had to look into another method of doing this ^^^^
+    // event listeners are now towards the bottom
   createBoard();
   startGame();
   playAgain.addEventListener("click", replay);
