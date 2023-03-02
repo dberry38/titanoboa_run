@@ -280,34 +280,11 @@ right.addEventListener("click", function () {
 // GREAT SUCCESS --- this is a much simpler method than I was led to believe would be necessary.
 // the success was actually just in the desktop browser, mobile needs more stuff i guess
 let boostState;
-
-boost.addEventListener("mousedown", sendIt);
-boost.addEventListener("touchstart", sendIt);
-
-function sendIt(e) {
- e.preventDefault();
- if (!boostState) {
-   boostState = true;
-   clearInterval(interval);
-   intervalTime = intervalTime * 0.5;
-   interval = setInterval(moveOutcome, intervalTime);
- }
-};
-
-boost.addEventListener("mouseup", noBoost);
-boost.addEventListener("mouseleave", noBoost);
-boost.addEventListener("touchend", noBoost);
-
-function noBoost() {
-  if (boostState) {
-    clearInterval(interval);
-    intervalTime = intervalTime * 2.0;
-    interval = setInterval(moveOutcome, intervalTime);
-    boostState = false;
-  }
-};
+// i thought i was slick but i had to go back to kirupa.com
 
 // furthur meditations into presshold events
+// borrowed from https://www.kirupa.com/html5/press_and_hold.htm
+// yes, that's .htm on the endpoint, not html.
 
     let timerID;
     let counter = 0;
@@ -317,7 +294,7 @@ function noBoost() {
     // Increase or decreae value to adjust how long
     // one should keep pressing down before the pressHold
     // event fires
-    let pressHoldDuration = 5;
+    let pressHoldDuration = 50;
 
     // Listening for the mouse and touch events    
     boost.addEventListener("mousedown", pressingDown, false);
@@ -343,9 +320,13 @@ function noBoost() {
       // Stop the timer
       cancelAnimationFrame(timerID);
       counter = 0;
-      intervalTime = intervalTime * 2.0;
-      interval = setInterval(moveOutcome, intervalTime);
-      boostState = false;
+      if (boostState) {
+        clearInterval(interval);
+        boostState = false;
+        console.log("removing boost");
+        intervalTime = intervalTime * 2.0;
+        interval = setInterval(moveOutcome, intervalTime);
+      }
 
       console.log("Not pressing!");
     }
@@ -367,11 +348,15 @@ function noBoost() {
 
     function doSomething(e) {
       console.log("pressHold event fired!");
-      clearInterval(interval);
-      intervalTime = intervalTime * 0.5;
-      interval = setInterval(moveOutcome, intervalTime);
+      if (!boostState) {
+        clearInterval(interval);
+        boostState = true;
+        console.log("boosting");
+        intervalTime = intervalTime * 0.5;
+        interval = setInterval(moveOutcome, intervalTime);
+      }
     }
-
+// extent of borrowed code from kirupa ^^^^^^^^^^^^^^^^
 
 
 
