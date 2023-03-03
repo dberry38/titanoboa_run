@@ -56,6 +56,7 @@ let direction = 0;
 
 let score = 0;
 let speed = 0.9;
+// TODO write a function that adjusts the speed increase based on score/level, to slowly work difficulty up
 let intervalTime = 0;
 let interval = 0;
 
