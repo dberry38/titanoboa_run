@@ -92,7 +92,6 @@ const renderScores = () => {
   for (var i = 0; i < highscores.length; i++) {
     let name = highscores[i].playerName;
     let score = highscores[i].score;
-    console.log(name, score, 5555555555);
 
     let nameLi = document.createElement("li");
     nameLi.textContent = name;
@@ -116,18 +115,9 @@ const createBoard = () => {
 const startGame = () => {
   let squares = document.querySelectorAll(".grid div");
   randomApple(squares);
+  setStyling(squares);
+
   direction = 1;
-  popup.style.display = "none"; //added this myself as it was kinda broken
-  pauseBtn.style.display = "none";
-  submitModal.style.display = "none";
-  playerInput.style.display = "flex";
-  submitBtn.style.display = "flex";
-  hsModal.style.display = "none";
-
-  emoji.innerHTML = "🥺";
-  plead.innerHTML = " give up?";
-  pauseBtn.style.display = "none";
-
   score = 0;
   scoreDisplay.innerHTML = score;
 
@@ -141,6 +131,23 @@ const startGame = () => {
   interval = setInterval(moveOutcome, intervalTime);
   musicMatch();
 };
+
+const setStyling = (squares) => {
+  popup.style.display = "none";
+  pauseBtn.style.display = "none";
+  submitModal.style.display = "none";
+  playerInput.style.display = "flex";
+  submitBtn.style.display = "flex";
+  hsModal.style.display = "none";
+  emoji.innerHTML = "🥺";
+  plead.innerHTML = " give up?";
+  pauseBtn.style.display = "none";
+
+  // this just solved the issue with apple spawns lololololol
+  squares.forEach((sqr) => {
+    sqr.classList.remove("burnt", "anim");
+  });
+}
 
 const musicMatch = () => {
   if (score < 6) {
@@ -243,8 +250,10 @@ function eatApple(squares, tail) {
 function randomApple(squares) {
   // my first use of a do while loop yaaaaay ---- loops through random grid points to place a new apple as long as the snake isn't already there
   // TODO this do-while loop is not working, I have seen the apple spawn on the snake more than once, especially at start of game
+  // FIXED with setStyling function
   do {
     appleIndex = Math.floor(Math.random() * squares.length);
+    // when I debugged this, i just console.log'd squares[appleIndex].classList, to find burnt and anim were still applied
   } while (squares[appleIndex].classList.contains("snake"));
 
   squares[appleIndex].classList.add("apple");
@@ -260,6 +269,7 @@ document.addEventListener("keydown", (event) => {
     case "KeyS":
     case "ArrowDown":
       // TODO these if statements are meant to prevent the player from turning the snake back on itself. However if the player hits a perpindicular direction, then the reverse direction before the snake moves, both commands will be allowed and the snake will still eat itself.
+      // not entirely sure it's an issue actually
       if (direction != -width) {
         direction = +width;
       }
@@ -474,7 +484,6 @@ submitBtn.addEventListener("click", function () {
   let userEntry = { playerName, score };
 
   highscores.push(userEntry);
-  console.log(highscores);
 
   localStorage.setItem("titan-scores", JSON.stringify(highscores));
 
