@@ -7,7 +7,7 @@ body {
   /* scale kind of works, but is shifting the container when the popup becomes visible, reason unknown */
   scale: 1.25;
   position: relative;
-  top: 8rem;
+  top: 6.66rem;
 }
 
 .buttons {
@@ -184,12 +184,16 @@ body {
 
 
 .anim {
-  background-image: url('./animations/trans-backg-explosiomatic-sprite.png');
-  width: 142px;
-  height: 200px;
-  animation: anim 1.0s steps(17) infinite;
+  background-image: url('./animations/scaled-mini-explositomaton.png');
+  width: 14px;
+  height: 20px;
+  animation: anim 2.0s steps(17);
+}
+
+.burnt {
+  background-color: black;
 }
 
 @keyframes anim {
-  100% { background-position: -2414px; }
+  100% { background-position: -340px; }
 }

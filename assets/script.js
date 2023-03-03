@@ -109,6 +109,7 @@ function moveOutcome() {
 
 function moveSnake(squares) {
   let tail = currentSnake.pop();
+  console.log(tail);
   squares[tail].classList.remove("snake");
   currentSnake.unshift(currentSnake[0] + direction);
   // movement ends here, then check for apples
@@ -143,6 +144,7 @@ function checkForHits(squares) {
     hardMusic.pause();
     wallBoom.play();
     deathMsg.innerHTML = "you bumped a wall and exploded";
+    explodeySnake(squares);
     // game ends
     return true;
   } else if (
@@ -346,18 +348,39 @@ function doSomething(e) {
 }
 // extent of borrowed code from kirupa ^^^^^^^^^^^^^^^^
 
+// ok cool i finally got this working, dont have to reset the burnt class attribute apparently.
+function explodeySnake(squares) {
+  currentSnake.forEach((seg) => {
+    squares[seg].classList.add("anim");
+    squares[seg].classList.add("burnt");
+  });
+  let ex = 1;
+  let fire = setInterval(function () {
+    if (ex > 0) {
+      ex--;
+    } else {
+      currentSnake.forEach((seg) => {
+        squares[seg].classList.remove("anim");
+      });
+    }
+  }, 1000);
+}
+
 // quarter second timer to prevent accidental hit on play again button immediately after game from restarting right away
+
 function endGame() {
   popup.style.display = "flex";
+  playAgain.innerHTML = "";
   let t = 1;
   let holdUp = setInterval(function () {
     if (t > 0) {
       t--;
     } else {
       clearInterval(holdUp);
+      playAgain.innerHTML = "play again";
       playAgain.addEventListener("click", replay);
     }
-  }, 250);
+  }, 500);
 }
 
 giveUp.addEventListener("click", function () {
