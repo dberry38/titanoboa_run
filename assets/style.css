@@ -1,13 +1,10 @@
+/* TODO mobile first design and responsive styling */
+/* TODO make it pretty*/
+
 /* following freeCodeCamp's snake game tutorial */
 
 body {
   background: rgb(212, 211, 211);
-}
-.container {
-  /* scale kind of works, but is shifting the container when the popup becomes visible, reason unknown */
-  scale: 1.25;
-  position: relative;
-  top: 6.66rem;
 }
 
 .buttons {
@@ -28,35 +25,35 @@ body {
 }
 
 .top {
-  background:rgb(159, 171, 32);
+  background: rgb(159, 171, 32);
 }
 
 .top:active {
-  background:rgb(227, 244, 42);
+  background: rgb(227, 244, 42);
 }
 
 .right {
-  background:rgb(27, 158, 77);
+  background: rgb(27, 158, 77);
 }
 
 .right:active {
-  background:rgb(40, 227, 112);
+  background: rgb(40, 227, 112);
 }
 
 .left {
-  background:rgb(25, 114, 162);
+  background: rgb(25, 114, 162);
 }
 
 .left:active {
-  background:rgb(38, 169, 240);
+  background: rgb(38, 169, 240);
 }
 
 .bottom {
-  background:rgb(145, 23, 23);
+  background: rgb(145, 23, 23);
 }
 
 .bottom:active {
-  background:rgb(225, 40, 40);
+  background: rgb(225, 40, 40);
 }
 
 .title {
@@ -72,16 +69,16 @@ body {
 }
 
 .grid-container {
-    width: 100vw;
-    min-width: 200px;
-    margin: 0 auto;
+  width: 100vw;
+  min-width: 200px;
+  margin: 0 auto;
 }
 
 .grid {
   width: 200px;
   height: 200px;
   border: 1px solid red;
-  background-color:rgb(177, 143, 95);
+  background-color: rgb(177, 143, 95);
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -91,7 +88,7 @@ body {
   width: 20px;
   height: 20px;
   border: 0.5px black solid;
-  box-sizing:border-box
+  box-sizing: border-box;
 }
 
 .snake {
@@ -133,20 +130,36 @@ body {
 .death-msg {
   color: white;
   text-align: center;
+}
 
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .play-again {
   height: 50px;
   width: 150px;
   border-radius: 3.5vw / 25%;
-  background: rgb(2, 189, 151);
+  background: rgb(116, 141, 138);
   transition: 0.5s;
 }
 
 .play-again:hover {
-  background: rgb(187, 0, 0);
-  color: white;
+  background: rgb(2, 186, 189);
+}
+
+.save-score {
+  height: 50px;
+  width: 150px;
+  border-radius: 3.5vw / 25%;
+  background: rgb(76, 149, 134);
+  transition: 0.5s;
+}
+
+.save-score:hover {
+  background: rgb(2, 189, 151);
 }
 
 .give-up {
@@ -154,13 +167,17 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 5rem;
+  top: 4rem;
   font-size: 8px;
   height: 38px;
   width: 100px;
   border-radius: 2vw / 25%;
-  background: rgb(2, 189, 151);
+  background: rgb(90, 118, 154);
   transition: 0.5s;
+}
+
+.give-up:hover {
+  background: rgb(53, 124, 216);
 }
 
 #emoji {
@@ -179,15 +196,105 @@ body {
   background: rgb(52, 155, 169);
 }
 
-/* TODO mobile first design and responsive styling */
-/* TODO make it pretty*/
+.modal-container {
+  font-family: 'Righteous', cursive;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 201px;
+  margin: 0 auto;
+  position: relative;
+  bottom: 924px;
 
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
 
+.user-score {
+  font-size: 44px;
+  position: relative;
+  bottom: 20px;
+  animation: user-score 5s infinite alternate;
+}
+
+@keyframes user-score {
+  0% {
+    color: blue;
+  }
+  12% {
+    color: magenta;
+  }
+  25% {
+    color: red;
+  }
+  37% {
+    color: orange;
+  }
+  50% {
+    color: yellow;
+  }
+  62% {
+    color: greenyellow;
+  }
+  75% {
+    color: green;
+  }
+  83% {
+    color: teal;
+  }
+  100% {
+    color: blue;
+  }
+}
+
+.modal-msg {
+  position: relative;
+  bottom: 60px;
+  text-align: center;
+}
+
+.player-name {
+  position: relative;
+  bottom: 60px;
+}
+
+#player-input {
+  height: 30px;
+  width: 180px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.submit-btn,
+.return-btn {
+  position: relative;
+  bottom: 50px;
+  width: 69px;
+  height: 28px;
+  margin: 5px 0;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  color: lime;
+  transition: 0.5s;
+}
+
+.submit-btn:hover {
+  scale: 1.5;
+  bottom: 45px;
+}
+
+/* experiments in animations */
 .anim {
-  background-image: url('./animations/scaled-mini-explositomaton.png');
+  background-image: url("./animations/scaled-mini-explositomaton.png");
   width: 14px;
   height: 20px;
-  animation: anim 2.0s steps(17);
+  animation: anim 2s steps(17);
 }
 
 .burnt {
@@ -195,5 +302,7 @@ body {
 }
 
 @keyframes anim {
-  100% { background-position: -340px; }
+  100% {
+    background-position: -340px;
+  }
 }

@@ -4,49 +4,54 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Righteous&display=swap"
+      rel="stylesheet"
+    />
     <title>Titanoboa Run</title>
     <link rel="stylesheet" href="./assets/style.css" />
     <script defer src="./assets/script.js"></script>
   </head>
   <body>
-
     <!-- following freeCodeCamp's snake game tutorial -->
     <h1 class="title">TITANOBOA RUN</h1>
-    <div class="container">
     <div class="score-display"></div>
     <div class="grid"></div>
 
     <!-- inserting audio as html elements here because apparently that's the easiest way to access them from the script file, can't just use the filepath url, like come on. -->
     <audio id="chompski">
-      <source src="./assets/audio/teeth-chomp-fx.mp3" type="audio/mp3">
+      <source src="./assets/audio/teeth-chomp-fx.mp3" type="audio/mp3" />
       something went wrong
     </audio>
     <audio id="wall-boom">
-      <source src="./assets/audio/plugg-fx-stomp.mp3" type="audio/mp3">
+      <source src="./assets/audio/plugg-fx-stomp.mp3" type="audio/mp3" />
       something went wrong
     </audio>
     <audio id="snek-scream">
-      <source src="./assets/audio/man-screaming.mp3" type="audio/mp3">
+      <source src="./assets/audio/man-screaming.mp3" type="audio/mp3" />
       something went wrong
     </audio>
     <audio id="sad-snek" loop>
-      <source src="./assets/audio/sentimental-piano-melody_90bpm_A _major.mp3" type="audio/mp3">
+      <source
+        src="./assets/audio/sentimental-piano-melody_90bpm_A _major.mp3"
+        type="audio/mp3"
+      />
       something went wrong
     </audio>
     <audio id="easy-music" loop>
-      <source src="./assets/audio/easy-levels-piano.mp3" type="audio/mp3">
+      <source src="./assets/audio/easy-levels-piano.mp3" type="audio/mp3" />
       something went wrong
     </audio>
     <audio id="medium-music" loop>
-      <source src="./assets/audio/medium-music.epiano.mp3" type="audio/mp3">
+      <source src="./assets/audio/medium-music.epiano.mp3" type="audio/mp3" />
       something went wrong
     </audio>
     <audio id="hard-music" loop>
-      <source src="./assets/audio/hard-levels-DnB.mp3" type="audio/mp3">
+      <source src="./assets/audio/hard-levels-DnB.mp3" type="audio/mp3" />
       something went wrong
     </audio>
-
-
 
     <div class="buttons">
       <button class="btn top">UP</button>
@@ -59,14 +64,32 @@
     </div>
     <div class="popup">
       <p class="death-msg"></p>
-      <button class="play-again">play again</button>
+      <div class="btn-container">
+        <button class="play-again">play again</button>
+        <button class="save-score">save score</button>
+      </div>
       <button class="give-up">
-        <p id="emoji">🥺</p><p id="plead"> give up?</p>
+        <p id="emoji">🥺</p>
+        <p id="plead">give up?</p>
       </button>
-      <button class="pause">(pause)</button>
+      <button class="pause">stop</button>
+    </div>
+
+    <div class="modal-container">
+      <p class="user-score">72</p>
+      <h1 class="modal-msg">who are you</h1>
+      <form class="player-name">
+        <input
+          id="player-input"
+          type="text"
+          name="playername"
+          autofocus="true"
+          placeholder="enter a name"
+        />
+      </form>
+      <button type="submit" class="submit-btn">submit</button>
+      <button class="return-btn">return</button>
     </div>
     <!-- extent of tutorial -->
-  </div>
-
   </body>
 </html>

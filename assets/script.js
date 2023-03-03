@@ -1,6 +1,6 @@
 // now we experiment with sound
 const chomp = document.getElementById("chompski");
-chomp.volume = 0.08;
+chomp.volume = 0.1;
 const wallBoom = document.getElementById("wall-boom");
 wallBoom.volume = 0.2;
 const snekScream = document.getElementById("snek-scream");
@@ -24,9 +24,17 @@ const grid = document.querySelector(".grid");
 const popup = document.querySelector(".popup");
 const deathMsg = document.querySelector(".death-msg");
 const playAgain = document.querySelector(".play-again");
+const saveScore = document.querySelector(".save-score");
 const giveUp = document.querySelector(".give-up");
 const pauseBtn = document.querySelector(".pause");
 const scoreDisplay = document.querySelector(".score-display");
+
+const submitModal = document.querySelector(".modal-container");
+const modalMsg = document.querySelector(".modal-msg");
+const playerScore = document.querySelector(".user-score");
+const playerInput = document.querySelector("#player-input");
+const submitBtn = document.querySelector(".submit-btn");
+const returnBtn = document.querySelector(".return-btn");
 
 let down = document.querySelector(".bottom");
 let left = document.querySelector(".left");
@@ -44,6 +52,8 @@ let speed = 0.9;
 let intervalTime = 0;
 let interval = 0;
 
+let highscores = [];
+
 // starting functions
 
 // DOMContentLoaded activates this listener as soon as the html content is loaded on screen
@@ -52,9 +62,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // document.addEventListener("keyup", control);
   // ^^^^ had to look into another method of doing this ^^^^
   // event listeners are now towards the bottom
+
+  let scoreList = JSON.parse(localStorage.getItem("titan-scores"));
+  if (scoreList !== null) {
+    highscores = scoreList;
+  }
   createBoard();
   startGame();
-  pauseBtn.style.display = "none";
 });
 
 const createBoard = () => {
@@ -71,6 +85,10 @@ const startGame = () => {
   randomApple(squares);
   direction = 1;
   popup.style.display = "none"; //added this myself as it was kinda broken
+  pauseBtn.style.display = "none";
+  submitModal.style.display = "none";
+  playerInput.style.display = "flex";
+  submitBtn.style.display = "flex";
   score = 0;
   scoreDisplay.innerHTML = score;
 
@@ -368,8 +386,10 @@ function explodeySnake(squares) {
 // quarter second timer to prevent accidental hit on play again button immediately after game from restarting right away
 
 function endGame() {
+  submitModal.style.display = "none";
   popup.style.display = "flex";
   playAgain.innerHTML = "";
+  saveScore.innerHTML = "";
   let t = 1;
   let holdUp = setInterval(function () {
     if (t > 0) {
@@ -378,8 +398,15 @@ function endGame() {
       clearInterval(holdUp);
       playAgain.innerHTML = "play again";
       playAgain.addEventListener("click", replay);
+      saveScore.innerHTML = "save score";
+      saveScore.addEventListener("click", showSaveModal);
     }
-  }, 500);
+  }, 250);
+}
+
+function showSaveModal(score) {
+  console.log(score);
+  submitModal.style.display = "flex";
 }
 
 giveUp.addEventListener("click", function () {
@@ -388,11 +415,30 @@ giveUp.addEventListener("click", function () {
   plead.innerHTML = " I can't believe you've done this";
   pauseBtn.style.display = "flex";
 });
+
 pauseBtn.addEventListener("click", function () {
   sadSnek.pause();
   emoji.innerHTML = "🥺";
   plead.innerHTML = " give up?";
   pauseBtn.style.display = "none";
+});
+
+submitBtn.addEventListener("click", function () {
+  let playerName = playerInput.value.trim();
+  let userEntry = { playerName, score };
+
+  highscores.push(userEntry);
+  console.log(highscores);
+
+  localStorage.setItem("titan-scores", JSON.stringify(highscores));
+
+  modalMsg.innerHTML = "score submitted";
+  submitBtn.style.display = "none";
+  playerInput.style.display = "none";
+});
+
+returnBtn.addEventListener("click", function () {
+  submitModal.style.display = "none";
 });
 
 // replay function
