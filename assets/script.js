@@ -241,7 +241,6 @@ function eatApple(squares, tail) {
     score++;
     musicMatch();
     scoreDisplay.textContent = score;
-    console.log(score);
     clearInterval(interval);
     intervalTime = intervalTime * speed;
     interval = setInterval(moveOutcome, intervalTime);
@@ -252,6 +251,7 @@ function randomApple(squares) {
   // my first use of a do while loop yaaaaay ---- loops through random grid points to place a new apple as long as the snake isn't already there
   // TODO this do-while loop is not working, I have seen the apple spawn on the snake more than once, especially at start of game
   // FIXED with setStyling function
+  // TODO NOT SO FAST
   do {
     appleIndex = Math.floor(Math.random() * squares.length);
     // when I debugged this, i just console.log'd squares[appleIndex].classList, to find burnt and anim were still applied
@@ -296,29 +296,53 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-// experimenting here --- pressing B now boosts the snake
-document.addEventListener("keydown", (event) => {
-  switch (event.code) {
-    case "KeyB":
-      if (event.repeat) {
-        break;
-      }
-      clearInterval(interval);
-      intervalTime = intervalTime * 0.5;
-      interval = setInterval(moveOutcome, intervalTime);
-      break;
-  }
-});
+// experimenting here --- pressing Shift (either side) now boosts the snake
 
-document.addEventListener("keyup", (event) => {
-  switch (event.code) {
-    case "KeyB":
-      clearInterval(interval);
-      intervalTime = intervalTime * 2;
-      interval = setInterval(moveOutcome, intervalTime);
-      break;
+// restructured this and I think I just made the boost button useless, holding down direction keys now boosts the snake
+document.addEventListener("keydown", handleBoost);
+document.addEventListener("keyup", handleBoost);
+
+function handleBoost(e) {
+  console.log(e.type);
+  if (e.type === "keydown" && !boostState) {
+    if (e.repeat) {
+      return;
+    };
+    console.log(intervalTime, 22222222)
+    clearInterval(interval);
+    intervalTime = intervalTime * 0.5;
+    interval = setInterval(moveOutcome, intervalTime);
+  } else {
+    console.log(intervalTime, 333333333)
+    clearInterval(interval);
+    intervalTime = intervalTime * 2;
+    interval = setInterval(moveOutcome, intervalTime);
   }
-});
+}
+
+
+// (event) => {
+//   console.log(event.key);
+//   switch (event.key) {
+//     case "Shift":
+//       if (event.repeat) {
+//         break;
+//       }
+//       clearInterval(interval);
+//       intervalTime = intervalTime * 0.5;
+//       interval = setInterval(moveOutcome, intervalTime);
+//       break;
+//   }
+// });
+//  => {
+//   switch (event.key) {
+//     case "Shift":
+//       clearInterval(interval);
+//       intervalTime = intervalTime * 2;
+//       interval = setInterval(moveOutcome, intervalTime);
+//       break;
+//   }
+// });
 
 // event listeners for mobile
 // direction buttons
@@ -345,7 +369,10 @@ right.addEventListener("click", function () {
 
 // GREAT SUCCESS --- this is a much simpler method than I was led to believe would be necessary.
 // the success was actually just in the desktop browser, mobile needs more stuff i guess
+
 let boostState;
+// ^^^this is all that's left of the code i thought would work
+
 // i thought i was slick but i had to go back to kirupa.com
 
 // furthur meditations into presshold events
@@ -442,6 +469,11 @@ function endGame() {
   playAgain.innerHTML = "";
   saveScore.innerHTML = "";
   viewScores.innerHTML = "";
+
+  // this solved the issue with the score submit screen throwing handleBoost and causing setinterval issues, closing the submit modal.
+  document.removeEventListener("keydown", handleBoost);
+  document.removeEventListener("keyup", handleBoost);
+
   let t = 1;
   let holdUp = setInterval(function () {
     if (t > 0) {
