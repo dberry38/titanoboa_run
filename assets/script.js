@@ -1,18 +1,18 @@
 // now we experiment with sound
 const chomp = document.getElementById("chompski");
-chomp.volume = 0.1;
+chomp.volume = 0.08;
 const wallBoom = document.getElementById("wall-boom");
-wallBoom.volume = 0.4;
+wallBoom.volume = 0.2;
 const snekScream = document.getElementById("snek-scream");
-snekScream.volume = 0.4;
+snekScream.volume = 0.2;
 const sadSnek = document.getElementById("sad-snek");
-sadSnek.volume = 0.6;
+sadSnek.volume = 0.3;
 const easyMusic = document.getElementById("easy-music");
-easyMusic.volume = 0.6;
+easyMusic.volume = 0.3;
 const mediumMusic = document.getElementById("medium-music");
-easyMusic.volume = 0.6;
+easyMusic.volume = 0.3;
 const hardMusic = document.getElementById("hard-music");
-easyMusic.volume = 0.6;
+easyMusic.volume = 0.3;
 
 const emoji = document.getElementById("emoji");
 const plead = document.getElementById("plead");
@@ -109,7 +109,6 @@ function moveOutcome() {
 
 function moveSnake(squares) {
   let tail = currentSnake.pop();
-  console.log(tail);
   squares[tail].classList.remove("snake");
   currentSnake.unshift(currentSnake[0] + direction);
   // movement ends here, then check for apples
