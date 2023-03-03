@@ -21,6 +21,7 @@ body {
 .btn {
   border-style: solid;
   border-width: 2px;
+  border-radius: 5%;
   border-color: black;
   width: 100px;
   height: 100px;
@@ -77,8 +78,8 @@ body {
 }
 
 .grid {
-  width: 202px;
-  height: 201px;
+  width: 200px;
+  height: 200px;
   border: 1px solid red;
   background-color:rgb(177, 143, 95);
   margin: 0 auto;
@@ -175,8 +176,20 @@ body {
   top: 5.2rem;
   font-size: 6px;
   border-radius: 1vw / 25%;
-  background: rgb(2, 189, 151);
+  background: rgb(52, 155, 169);
 }
 
 /* TODO mobile first design and responsive styling */
 /* TODO make it pretty*/
+
+
+.anim {
+  background-image: url('./animations/trans-backg-explosiomatic-sprite.png');
+  width: 142px;
+  height: 200px;
+  animation: anim 1.0s steps(17) infinite;
+}
+
+@keyframes anim {
+  100% { background-position: -2414px; }
+}
