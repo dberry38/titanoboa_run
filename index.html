@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Righteous&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap"
       rel="stylesheet"
     />
     <title>Titanoboa Run</title>
@@ -59,6 +59,9 @@
       <button class="btn left">LEFT</button>
       <button class="btn bottom">DOWN</button>
     </div>
+
+    <!-- extent of tutorial -->
+
     <div class="boost-container">
       <button class="btn boost-btn">BOOST</button>
     </div>
@@ -67,6 +70,7 @@
       <div class="btn-container">
         <button class="play-again">play again</button>
         <button class="save-score">save score</button>
+        <button class="view-scores">view highscores</button>
       </div>
       <button class="give-up">
         <p id="emoji">🥺</p>
@@ -83,6 +87,7 @@
           id="player-input"
           type="text"
           name="playername"
+          maxlength="20"
           autofocus="true"
           placeholder="enter a name"
         />
@@ -90,6 +95,18 @@
       <button type="submit" class="submit-btn">submit</button>
       <button class="return-btn">return</button>
     </div>
-    <!-- extent of tutorial -->
+
+    <div class="highscores-modal">
+      <h1 class="hs-header">HIGHSCORES</h1>
+      <div class="list-columns">
+        <div class="names">
+          <ul class="names-list"></ul>
+        </div>
+        <div class="scores">
+          <ul class="scores-list"></ul>
+        </div>
+      </div>
+      <button class="hs-return-btn">return</button>
+    </div>
   </body>
 </html>

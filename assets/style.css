@@ -22,6 +22,7 @@ body {
   border-color: black;
   width: 100px;
   height: 100px;
+  user-select: none;
 }
 
 .top {
@@ -130,17 +131,22 @@ body {
 .death-msg {
   color: white;
   text-align: center;
+  position: relative;
+  bottom: 60px;
 }
 
 .btn-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
+  bottom: 60px;
 }
 
 .play-again {
   height: 50px;
   width: 150px;
+  margin-bottom: 10px;
   border-radius: 3.5vw / 25%;
   background: rgb(116, 141, 138);
   transition: 0.5s;
@@ -153,6 +159,7 @@ body {
 .save-score {
   height: 50px;
   width: 150px;
+  margin-bottom: 10px;
   border-radius: 3.5vw / 25%;
   background: rgb(76, 149, 134);
   transition: 0.5s;
@@ -162,12 +169,22 @@ body {
   background: rgb(2, 189, 151);
 }
 
+.view-scores {
+  height: 50px;
+  width: 150px;
+  border-radius: 3.5vw / 25%;
+  background: rgb(130, 143, 93);
+  transition: 0.5s;
+}
+
+.view-scores:hover {
+  background: rgb(164, 197, 71);
+}
+
 .give-up {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  top: 4rem;
   font-size: 8px;
   height: 38px;
   width: 100px;
@@ -190,8 +207,8 @@ body {
 
 .pause {
   position: relative;
-  top: 5.2rem;
-  font-size: 6px;
+  top: 10px;
+  font-size: 7px;
   border-radius: 1vw / 25%;
   background: rgb(52, 155, 169);
 }
@@ -281,6 +298,7 @@ body {
   justify-content: center;
   background: black;
   color: lime;
+  border-radius: 0.5rem / 25%;
   transition: 0.5s;
 }
 
@@ -288,6 +306,65 @@ body {
   scale: 1.5;
   bottom: 45px;
 }
+
+.highscores-modal {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  bottom: 990px;
+  width: 200px;
+  min-height: 480px;
+  margin: 0 auto;
+  margin-top: 20px;
+  border: solid 1px;
+
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.hs-header {
+  font-family: 'Righteous', cursive;
+  font-size: 24px;
+  text-align: center;
+}
+
+.list-columns {
+  display: flex;
+  flex-direction: row;
+}
+
+.names {
+  flex: 0 1 auto;
+}
+
+.scores {
+  flex: 1 1 auto;
+}
+
+.names-list,
+.scores-list {
+  list-style-type: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 2;
+}
+
+.hs-return-btn {
+  width: 60px;
+  position: absolute;
+  bottom: 5px;
+  left: 70px;
+  background: black;
+  color: lime;
+  border-radius: 0.5rem / 25%;
+}
+
+
 
 /* experiments in animations */
 .anim {

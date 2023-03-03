@@ -25,6 +25,7 @@ const popup = document.querySelector(".popup");
 const deathMsg = document.querySelector(".death-msg");
 const playAgain = document.querySelector(".play-again");
 const saveScore = document.querySelector(".save-score");
+const viewScores = document.querySelector(".view-scores");
 const giveUp = document.querySelector(".give-up");
 const pauseBtn = document.querySelector(".pause");
 const scoreDisplay = document.querySelector(".score-display");
@@ -35,6 +36,12 @@ const playerScore = document.querySelector(".user-score");
 const playerInput = document.querySelector("#player-input");
 const submitBtn = document.querySelector(".submit-btn");
 const returnBtn = document.querySelector(".return-btn");
+
+const hsModal = document.querySelector(".highscores-modal");
+const namesList = document.querySelector(".names-list");
+const scoresList = document.querySelector(".scores-list");
+const hsReturn = document.querySelector(".hs-return-btn");
+
 
 let down = document.querySelector(".bottom");
 let left = document.querySelector(".left");
@@ -63,13 +70,35 @@ document.addEventListener("DOMContentLoaded", function () {
   // ^^^^ had to look into another method of doing this ^^^^
   // event listeners are now towards the bottom
 
-  let scoreList = JSON.parse(localStorage.getItem("titan-scores"));
-  if (scoreList !== null) {
-    highscores = scoreList;
-  }
+  renderScores();
   createBoard();
   startGame();
 });
+
+const renderScores = () => {
+  let scoreList = JSON.parse(localStorage.getItem("titan-scores"));
+  if (scoreList !== null) {
+    highscores = scoreList;
+  };
+
+  highscores.sort(function (a, b) {
+    return b.score-a.score;
+  });
+
+  for (var i = 0; i < highscores.length; i++) {
+    let name = highscores[i].playerName;
+    let score = highscores[i].score;
+    console.log(name, score, 5555555555);
+
+    let nameLi = document.createElement("li");
+    nameLi.textContent = name;
+    let scoreLi = document.createElement("li");
+    scoreLi.textContent = score;
+
+    namesList.appendChild(nameLi);
+    scoresList.appendChild(scoreLi);
+  }
+}
 
 const createBoard = () => {
   popup.getElementsByClassName.display = "none";
@@ -89,6 +118,12 @@ const startGame = () => {
   submitModal.style.display = "none";
   playerInput.style.display = "flex";
   submitBtn.style.display = "flex";
+  hsModal.style.display = "none";
+
+  emoji.innerHTML = "🥺";
+  plead.innerHTML = " give up?";
+  pauseBtn.style.display = "none";
+
   score = 0;
   scoreDisplay.innerHTML = score;
 
@@ -194,6 +229,7 @@ function eatApple(squares, tail) {
     score++;
     musicMatch();
     scoreDisplay.textContent = score;
+    console.log(score);
     clearInterval(interval);
     intervalTime = intervalTime * speed;
     interval = setInterval(moveOutcome, intervalTime);
@@ -404,8 +440,9 @@ function endGame() {
   }, 250);
 }
 
-function showSaveModal(score) {
+function showSaveModal() {
   console.log(score);
+  playerScore.innerHTML = score;
   submitModal.style.display = "flex";
 }
 
@@ -425,6 +462,9 @@ pauseBtn.addEventListener("click", function () {
 
 submitBtn.addEventListener("click", function () {
   let playerName = playerInput.value.trim();
+  if (!playerName) {
+    playerName = "unknown";
+  }
   let userEntry = { playerName, score };
 
   highscores.push(userEntry);
@@ -441,10 +481,19 @@ returnBtn.addEventListener("click", function () {
   submitModal.style.display = "none";
 });
 
+viewScores.addEventListener("click", function() {
+  hsModal.style.display = "flex";
+});
+
+hsReturn.addEventListener("click", function() {
+  hsModal.style.display = "none";
+})
+
 // replay function
 function replay() {
   sadSnek.pause();
   grid.innerHTML = "";
+  renderScores();
   createBoard();
   startGame();
   popup.style.display = "none";
@@ -454,8 +503,7 @@ function replay() {
 
 // extent of tutorial
 
-// TODO add localstorage for high scores
-// TODO add a highscore page (modal?)
+// TODO add a highscore page modal
 // TODO add custom grid size
 // TODO??? add custom grid layout,,, Probably more like new levels
-// TODO??? add difficulty selection (change increase in speed per "apple")
+// TODO add bananas (bad item)
