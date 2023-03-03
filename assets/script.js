@@ -75,7 +75,11 @@ document.addEventListener("DOMContentLoaded", function () {
   startGame();
 });
 
+
 const renderScores = () => {
+  namesList.innerHTML = "";
+  scoresList.innerHTML = "";
+
   let scoreList = JSON.parse(localStorage.getItem("titan-scores"));
   if (scoreList !== null) {
     highscores = scoreList;
@@ -426,6 +430,7 @@ function endGame() {
   popup.style.display = "flex";
   playAgain.innerHTML = "";
   saveScore.innerHTML = "";
+  viewScores.innerHTML = "";
   let t = 1;
   let holdUp = setInterval(function () {
     if (t > 0) {
@@ -436,6 +441,7 @@ function endGame() {
       playAgain.addEventListener("click", replay);
       saveScore.innerHTML = "save score";
       saveScore.addEventListener("click", showSaveModal);
+      viewScores.innerHTML = "view scores";
     }
   }, 250);
 }
@@ -475,6 +481,8 @@ submitBtn.addEventListener("click", function () {
   modalMsg.innerHTML = "score submitted";
   submitBtn.style.display = "none";
   playerInput.style.display = "none";
+  highscores = [];
+  renderScores();
 });
 
 returnBtn.addEventListener("click", function () {
@@ -493,7 +501,7 @@ hsReturn.addEventListener("click", function() {
 function replay() {
   sadSnek.pause();
   grid.innerHTML = "";
-  renderScores();
+  playerInput.value = "";
   createBoard();
   startGame();
   popup.style.display = "none";
@@ -503,7 +511,6 @@ function replay() {
 
 // extent of tutorial
 
-// TODO add a highscore page modal
 // TODO add custom grid size
 // TODO??? add custom grid layout,,, Probably more like new levels
 // TODO add bananas (bad item)
