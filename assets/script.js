@@ -17,7 +17,6 @@ easyMusic.volume = 0.6;
 const emoji = document.getElementById("emoji");
 const plead = document.getElementById("plead");
 
-
 // following freeCodeCamp's snake game tutorial
 
 // establishing a ton of variables
@@ -96,12 +95,12 @@ const musicMatch = () => {
     mediumMusic.pause();
     hardMusic.play();
   }
-}
+};
 
 function moveOutcome() {
   let squares = document.querySelectorAll(".grid div");
   if (checkForHits(squares)) {
-    popup.style.display = "flex";
+    endGame();
     return clearInterval(interval);
   } else {
     moveSnake(squares);
@@ -147,20 +146,20 @@ function checkForHits(squares) {
     // game ends
     return true;
   } else if (
-      // this final condition determines if the snake hurts itself in its confusion
-      squares[currentSnake[0] + direction].classList.contains("snake")
-    ) {
-      easyMusic.pause();
-      mediumMusic.pause();
-      hardMusic.pause();
-      snekScream.play();
-      deathMsg.innerHTML = "you chomped on yourself and died horribly"
-      // game ends
-      return true;
-    } else {
-      // moveSnake will move the snake forward
-      return false;
-    }
+    // this final condition determines if the snake hurts itself in its confusion
+    squares[currentSnake[0] + direction].classList.contains("snake")
+  ) {
+    easyMusic.pause();
+    mediumMusic.pause();
+    hardMusic.pause();
+    snekScream.play();
+    deathMsg.innerHTML = "you chomped on yourself and died horribly";
+    // game ends
+    return true;
+  } else {
+    // moveSnake will move the snake forward
+    return false;
+  }
 }
 
 function eatApple(squares, tail) {
@@ -251,8 +250,6 @@ document.addEventListener("keyup", (event) => {
   }
 });
 
-
-
 // event listeners for mobile
 // direction buttons
 up.addEventListener("click", function () {
@@ -276,7 +273,6 @@ right.addEventListener("click", function () {
   }
 });
 
-
 // GREAT SUCCESS --- this is a much simpler method than I was led to believe would be necessary.
 // the success was actually just in the desktop browser, mobile needs more stuff i guess
 let boostState;
@@ -286,84 +282,95 @@ let boostState;
 // borrowed from https://www.kirupa.com/html5/press_and_hold.htm
 // yes, that's .htm on the endpoint, not html.
 
-    let timerID;
-    let counter = 0;
+let timerID;
+let counter = 0;
 
-    let pressHoldEvent = new CustomEvent("pressHold");
+let pressHoldEvent = new CustomEvent("pressHold");
 
-    // Increase or decreae value to adjust how long
-    // one should keep pressing down before the pressHold
-    // event fires
-    let pressHoldDuration = 5;
+// Increase or decreae value to adjust how long
+// one should keep pressing down before the pressHold
+// event fires
+let pressHoldDuration = 1;
 
-    // Listening for the mouse and touch events    
-    boost.addEventListener("mousedown", pressingDown, false);
-    boost.addEventListener("mouseup", notPressingDown, false);
-    boost.addEventListener("mouseleave", notPressingDown, false);
+// Listening for the mouse and touch events
+boost.addEventListener("mousedown", pressingDown, false);
+boost.addEventListener("mouseup", notPressingDown, false);
+boost.addEventListener("mouseleave", notPressingDown, false);
 
-    boost.addEventListener("touchstart", pressingDown, false);
-    boost.addEventListener("touchend", notPressingDown, false);
+boost.addEventListener("touchstart", pressingDown, false);
+boost.addEventListener("touchend", notPressingDown, false);
 
-    // Listening for our custom pressHold event
-    boost.addEventListener("pressHold", doSomething, false);
+// Listening for our custom pressHold event
+boost.addEventListener("pressHold", doSomething, false);
 
-    function pressingDown(e) {
-      // Start the timer
-      requestAnimationFrame(timer);
+function pressingDown(e) {
+  // Start the timer
+  requestAnimationFrame(timer);
 
-      e.preventDefault();
-    }
+  e.preventDefault();
+}
 
-    function notPressingDown(e) {
-      // Stop the timer
-      cancelAnimationFrame(timerID);
-      counter = 0;
-      if (boostState) {
-        clearInterval(interval);
-        boost.style.background = "rgb(222, 96, 29)";
-        intervalTime = intervalTime * 2.0;
-        interval = setInterval(moveOutcome, intervalTime);
-        boostState = false;
-      }
-    }
+function notPressingDown(e) {
+  // Stop the timer
+  cancelAnimationFrame(timerID);
+  counter = 0;
+  if (boostState) {
+    clearInterval(interval);
+    boost.style.background = "rgb(222, 96, 29)";
+    intervalTime = intervalTime * 2.0;
+    interval = setInterval(moveOutcome, intervalTime);
+    boostState = false;
+  }
+}
 
-    //
-    // Runs at 60fps when you are pressing down
-    //
-    function timer() {
+//
+// Runs at 60fps when you are pressing down
+//
+function timer() {
+  if (counter < pressHoldDuration) {
+    timerID = requestAnimationFrame(timer);
+    counter++;
+  } else {
+    boost.dispatchEvent(pressHoldEvent);
+  }
+}
 
-      if (counter < pressHoldDuration) {
-        timerID = requestAnimationFrame(timer);
-        counter++;
-      } else {
-        boost.dispatchEvent(pressHoldEvent);
-      }
-    }
-
-    function doSomething(e) {
-      if (!boostState) {
-        clearInterval(interval);
-        boost.style.background = "rgb(254, 164, 45)";
-        intervalTime = intervalTime * 0.5;
-        interval = setInterval(moveOutcome, intervalTime);
-        boostState = true;
-      }
-    }
+function doSomething(e) {
+  if (!boostState) {
+    clearInterval(interval);
+    boost.style.background = "rgb(254, 164, 45)";
+    intervalTime = intervalTime * 0.5;
+    interval = setInterval(moveOutcome, intervalTime);
+    boostState = true;
+  }
+}
 // extent of borrowed code from kirupa ^^^^^^^^^^^^^^^^
-// TODO create a setInterval to prevent play again button from being tapped immediately after game end
-playAgain.addEventListener("click", replay);
+
+// quarter second timer to prevent accidental hit on play again button immediately after game from restarting right away
+function endGame() {
+  popup.style.display = "flex";
+  let t = 1;
+  let holdUp = setInterval(function () {
+    if (t > 0) {
+      t--;
+    } else {
+      clearInterval(holdUp);
+      playAgain.addEventListener("click", replay);
+    }
+  }, 250);
+}
 
 giveUp.addEventListener("click", function () {
-  plead.innerHTML = " I can't believe you've done this";
-  emoji.innerHTML = "😭";
   sadSnek.play();
+  emoji.innerHTML = "😭";
+  plead.innerHTML = " I can't believe you've done this";
   pauseBtn.style.display = "flex";
 });
 pauseBtn.addEventListener("click", function () {
   sadSnek.pause();
-  pauseBtn.style.display = "none";
   emoji.innerHTML = "🥺";
   plead.innerHTML = " give up?";
+  pauseBtn.style.display = "none";
 });
 
 // replay function
@@ -374,6 +381,7 @@ function replay() {
   startGame();
   popup.style.display = "none";
   pauseBtn.style.display = "none";
+  playAgain.removeEventListener("click", replay);
 }
 
 // extent of tutorial
