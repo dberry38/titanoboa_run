@@ -556,3 +556,5 @@ function replay() {
 // TODO add custom grid size
 // TODO??? add custom grid layout,,, Probably more like new levels
 // TODO add bananas (bad item)
+// TODO add a wiggle animation for snek
+// TODO add some sort of movement for ladybugs
