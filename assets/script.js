@@ -162,6 +162,7 @@ const setStyling = (squares) => {
   pauseBtn.style.display = "none";
 
   // so, turns out I just needed to change the order of code in startGame to fix the bug spawn issue. This forEach still helps clean things up each game.
+  // TODO nope, I've seen it happen again since
   squares.forEach((sqr) => {
     sqr.classList.remove("burnt", "anim");
   });
@@ -302,7 +303,7 @@ function randomBug(squares) {
 }
 
 // had to restructure the listener for keyboard use, maybe the tutorial's method is deprecated
-document.addEventListener("keydown", snakeControl)
+document.addEventListener("keydown", snakeControl);
 
 function snakeControl() {
   if (event.defaultPrevented) {
@@ -310,34 +311,34 @@ function snakeControl() {
   }
 
   switch (event.code) {
-    case "KeyS":
-    case "ArrowDown":
-      // TODO these if statements are meant to prevent the player from turning the snake back on itself. However if the player hits a perpindicular direction, then the reverse direction before the snake moves, both commands will be allowed and the snake will still eat itself.
-      // not entirely sure it's an issue actually
-      if (direction != -width) {
-        direction = +width;
-      }
-      break;
+    // issue: snake can eat itself if you hit two directions before the snake moves, (snake moving up, press left and down, snake moves down, eats itself)
+    // figured it out, direction is now limited based on snake's last position.
     case "KeyW":
     case "ArrowUp":
-      if (direction != +width) {
+      if (currentSnake[1] != currentSnake[0] - width) {
         direction = -width;
+      }
+      break;
+    case "KeyS":
+    case "ArrowDown":
+      if (currentSnake[1] != currentSnake[0] + width) {
+        direction = +width;
       }
       break;
     case "KeyA":
     case "ArrowLeft":
-      if (direction != +1) {
+      if (currentSnake[1] != currentSnake[0] - 1) {
         direction = -1;
       }
       break;
     case "KeyD":
     case "ArrowRight":
-      if (direction != -1) {
+      if (currentSnake[1] != currentSnake[0] + 1) {
         direction = +1;
       }
       break;
   }
-};
+}
 
 // experimenting here --- pressing Shift (either side) now boosts the snake
 
@@ -390,22 +391,22 @@ function handleBoost(e) {
 // event listeners for mobile
 // direction buttons
 up.addEventListener("click", function () {
-  if (direction != +width) {
+  if (currentSnake[1] != currentSnake[0] - width) {
     direction = -width;
   }
 });
 down.addEventListener("click", function () {
-  if (direction != -width) {
+  if (currentSnake[1] != currentSnake[0] + width) {
     direction = +width;
   }
 });
 left.addEventListener("click", function () {
-  if (direction != 1) {
+  if (currentSnake[1] != currentSnake[0] - 1) {
     direction = -1;
   }
 });
 right.addEventListener("click", function () {
-  if (direction != -1) {
+  if (currentSnake[1] != currentSnake[0] + 1) {
     direction = 1;
   }
 });
@@ -535,7 +536,6 @@ function endGame() {
 }
 
 function showSaveModal() {
-  console.log(score);
   playerScore.innerHTML = score;
   submitModal.style.display = "flex";
 }
