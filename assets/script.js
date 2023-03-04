@@ -28,7 +28,15 @@ const saveScore = document.querySelector(".save-score");
 const viewScores = document.querySelector(".view-scores");
 const giveUp = document.querySelector(".give-up");
 const pauseBtn = document.querySelector(".pause");
-const scoreDisplay = document.querySelector(".score-display");
+const scoreCount = document.querySelector(".score-count");
+
+const minutes = document.querySelector(".minutes");
+let min = 0;
+const seconds = document.querySelector(".seconds");
+let sec = 0;
+const tenths = document.querySelector(".tenths");
+let tens = 0;
+let stopWatchInterval;
 
 const submitModal = document.querySelector(".modal-container");
 const modalMsg = document.querySelector(".modal-msg");
@@ -42,7 +50,6 @@ const namesList = document.querySelector(".names-list");
 const scoresList = document.querySelector(".scores-list");
 const hsReturn = document.querySelector(".hs-return-btn");
 
-
 let down = document.querySelector(".bottom");
 let left = document.querySelector(".left");
 let right = document.querySelector(".right");
@@ -51,7 +58,7 @@ let boost = document.querySelector(".boost-btn");
 
 let width = 10;
 let currentIndex = 0;
-let appleIndex = 0;
+let bugIndex = 0;
 let direction = 0;
 
 let score = 0;
@@ -76,7 +83,6 @@ document.addEventListener("DOMContentLoaded", function () {
   startGame();
 });
 
-
 const renderScores = () => {
   namesList.innerHTML = "";
   scoresList.innerHTML = "";
@@ -84,10 +90,10 @@ const renderScores = () => {
   let scoreList = JSON.parse(localStorage.getItem("titan-scores"));
   if (scoreList !== null) {
     highscores = scoreList;
-  };
+  }
 
   highscores.sort(function (a, b) {
-    return b.score-a.score;
+    return b.score - a.score;
   });
 
   for (var i = 0; i < highscores.length; i++) {
@@ -102,7 +108,7 @@ const renderScores = () => {
     namesList.appendChild(nameLi);
     scoresList.appendChild(scoreLi);
   }
-}
+};
 
 const createBoard = () => {
   popup.getElementsByClassName.display = "none";
@@ -115,12 +121,17 @@ const createBoard = () => {
 //
 const startGame = () => {
   let squares = document.querySelectorAll(".grid div");
-  randomApple(squares);
-  setStyling(squares);
+
+  minutes.innerHTML = "00";
+  seconds.innerHTML = "00";
+  tenths.innerHTML = "00";
+  min = 0;
+  sec = 0;
+  tens = 0;
 
   direction = 1;
   score = 0;
-  scoreDisplay.innerHTML = score;
+  scoreCount.innerHTML = score;
 
   // sets  snake speed
   intervalTime = 1000;
@@ -130,7 +141,13 @@ const startGame = () => {
   currentIndex = 0;
   currentSnake.forEach((index) => squares[index].classList.add("snake"));
   interval = setInterval(moveOutcome, intervalTime);
+
+  randomBug(squares);
+  setStyling(squares);
+  setHandleBoost();
   musicMatch();
+  clearInterval(startTime);
+  stopWatchInterval = setInterval(startTime, 10);
 };
 
 const setStyling = (squares) => {
@@ -144,11 +161,11 @@ const setStyling = (squares) => {
   plead.innerHTML = " give up?";
   pauseBtn.style.display = "none";
 
-  // this just solved the issue with apple spawns lololololol
+  // so, turns out I just needed to change the order of code in startGame to fix the bug spawn issue. This forEach still helps clean things up each game.
   squares.forEach((sqr) => {
     sqr.classList.remove("burnt", "anim");
   });
-}
+};
 
 const musicMatch = () => {
   if (score < 6) {
@@ -162,10 +179,45 @@ const musicMatch = () => {
   }
 };
 
+function startTime() {
+  tens++;
+
+  if (tens <= 9) {
+    tenths.innerHTML = "0" + tens;
+  }
+
+  if (tens > 9) {
+    tenths.innerHTML = tens;
+  }
+
+  if (tens > 99) {
+    sec++;
+    seconds.innerHTML = "0" + sec;
+    tens = 0;
+    tenths.innerHTML = "0" + tens;
+  }
+
+  if (sec > 9) {
+    seconds.innerHTML = sec;
+  }
+
+  if (sec > 59) {
+    min++;
+    minutes.innerHTML = "0" + min;
+    sec = 0;
+    seconds.innerHTML = "0" + sec;
+  }
+
+  if (min > 9) {
+    minutes.innerHTML = min;
+  }
+}
+
 function moveOutcome() {
   let squares = document.querySelectorAll(".grid div");
   if (checkForHits(squares)) {
     endGame();
+    clearInterval(stopWatchInterval);
     return clearInterval(interval);
   } else {
     moveSnake(squares);
@@ -176,31 +228,22 @@ function moveSnake(squares) {
   let tail = currentSnake.pop();
   squares[tail].classList.remove("snake");
   currentSnake.unshift(currentSnake[0] + direction);
-  // movement ends here, then check for apples
-  eatApple(squares, tail);
+  // movement ends here, then check for bugs
+  eatBug(squares, tail);
   squares[currentSnake[0]].classList.add("snake");
 }
 
 function checkForHits(squares) {
-  // if (currentSnake[0] + width >= width * width && direction === width) {
-  //     console.log("snake hit bottom wall")
-  // } else if (currentSnake[0] % width === width - 1 && direction === 1) {
-  //     console.log("snake hit right wall")
-  // } else if (currentSnake[0] % width === 0 && direction === -1) {
-  //     console.log("snake hit left wall")
-  // } else if (currentSnake[0] - width <= -1 && direction === -width) {
-  //     console.log("snake hit top wall")
-  // } else if (squares[currentSnake[0] + direction].classList.contains("snake")) {
-  //     console.log("snake ate itself")
-  // }
-  // ^^^^ this big ugly was used for debugging ^^^^
-
   if (
     // these first four conditions define contact with the walls
+    //bottom
     (currentSnake[0] + width >= width * width && direction === width) ||
+    //right
     (currentSnake[0] % width === width - 1 && direction === 1) ||
+    //left
     (currentSnake[0] % width === 0 && direction === -1) ||
     // originally width <= 0, but was causing issues with the first block registering a hit to the top wall when the snake enters the first block from beneath. fixed with -1.
+    //top
     (currentSnake[0] - width <= -1 && direction === -width)
   ) {
     easyMusic.pause();
@@ -228,40 +271,40 @@ function checkForHits(squares) {
   }
 }
 
-function eatApple(squares, tail) {
-  if (squares[currentSnake[0]].classList.contains("apple")) {
-    squares[currentSnake[0]].classList.remove("apple");
+function eatBug(squares, tail) {
+  if (squares[currentSnake[0]].classList.contains("bug")) {
+    squares[currentSnake[0]].classList.remove("bug");
     squares[tail].classList.add("snake");
     currentSnake.push(tail);
 
-    // this is where we try audio for the fisrt time bear with us
+    // this is where we try audio for the first time bear with us
     chomp.play();
 
-    randomApple(squares);
+    randomBug(squares);
     score++;
     musicMatch();
-    scoreDisplay.textContent = score;
+    scoreCount.textContent = score;
     clearInterval(interval);
     intervalTime = intervalTime * speed;
     interval = setInterval(moveOutcome, intervalTime);
   }
 }
 
-function randomApple(squares) {
-  // my first use of a do while loop yaaaaay ---- loops through random grid points to place a new apple as long as the snake isn't already there
-  // TODO this do-while loop is not working, I have seen the apple spawn on the snake more than once, especially at start of game
-  // FIXED with setStyling function
-  // TODO NOT SO FAST
+function randomBug(squares) {
+  // my first use of a do while loop yaaaaay ---- loops through random grid points to place a new bug as long as the snake isn't already there
+  // TODO it is STILL not working, but of course it wont spawn a bug on the snake when I console log to debug   >:(  well I guess as long as this console log is here it wont do it so I'll call it fixed.
   do {
-    appleIndex = Math.floor(Math.random() * squares.length);
-    // when I debugged this, i just console.log'd squares[appleIndex].classList, to find burnt and anim were still applied
-  } while (squares[appleIndex].classList.contains("snake"));
+    bugIndex = Math.floor(Math.random() * squares.length);
+    console.log(bugIndex, "-----", squares[bugIndex].classList);
+  } while (squares[bugIndex].classList.contains("snake"));
 
-  squares[appleIndex].classList.add("apple");
+  squares[bugIndex].classList.add("bug");
 }
 
 // had to restructure the listener for keyboard use, maybe the tutorial's method is deprecated
-document.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", snakeControl)
+
+function snakeControl() {
   if (event.defaultPrevented) {
     return;
   }
@@ -294,32 +337,32 @@ document.addEventListener("keydown", (event) => {
       }
       break;
   }
-});
+};
 
 // experimenting here --- pressing Shift (either side) now boosts the snake
 
 // restructured this and I think I just made the boost button useless, holding down direction keys now boosts the snake
-document.addEventListener("keydown", handleBoost);
-document.addEventListener("keyup", handleBoost);
+// definitely still need the boost button for mobile users
+// it broke, had to wrap the addeventlisteners in a function so it could be called at start of game.
+function setHandleBoost() {
+  document.addEventListener("keydown", handleBoost);
+  document.addEventListener("keyup", handleBoost);
+}
 
 function handleBoost(e) {
-  console.log(e.type);
   if (e.type === "keydown" && !boostState) {
     if (e.repeat) {
       return;
-    };
-    console.log(intervalTime, 22222222)
+    }
     clearInterval(interval);
     intervalTime = intervalTime * 0.5;
     interval = setInterval(moveOutcome, intervalTime);
   } else {
-    console.log(intervalTime, 333333333)
     clearInterval(interval);
     intervalTime = intervalTime * 2;
     interval = setInterval(moveOutcome, intervalTime);
   }
 }
-
 
 // (event) => {
 //   console.log(event.key);
@@ -450,10 +493,12 @@ function explodeySnake(squares) {
     squares[seg].classList.add("burnt");
   });
   let ex = 1;
+
   let fire = setInterval(function () {
     if (ex > 0) {
       ex--;
     } else {
+      clearInterval(fire);
       currentSnake.forEach((seg) => {
         squares[seg].classList.remove("anim");
       });
@@ -531,13 +576,13 @@ returnBtn.addEventListener("click", function () {
   submitModal.style.display = "none";
 });
 
-viewScores.addEventListener("click", function() {
+viewScores.addEventListener("click", function () {
   hsModal.style.display = "flex";
 });
 
-hsReturn.addEventListener("click", function() {
+hsReturn.addEventListener("click", function () {
   hsModal.style.display = "none";
-})
+});
 
 // replay function
 function replay() {
@@ -558,3 +603,4 @@ function replay() {
 // TODO add bananas (bad item)
 // TODO add a wiggle animation for snek
 // TODO add some sort of movement for ladybugs
+// file is getting long but we've got to go deperrrrrrrrrrrr

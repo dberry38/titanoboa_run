@@ -58,15 +58,30 @@ body {
 }
 
 .title {
+  font-family: Righteous, cursive;
   display: flex;
   text-align: center;
   justify-content: center;
 }
 
-.score-display {
+.scoreboard {
+  font-family: Roboto, sans serif;
+  display: flex;
+  width: 200px;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+.score,
+.stopwatch {
   width: 200px;
   margin: 0.5rem auto;
-  font-size: 20px;
+  font-size: 18px;
+  flex: 1 1 auto;
+}
+
+.stopwatch {
+  text-align: end;
 }
 
 .grid-container {
@@ -96,7 +111,7 @@ body {
   background: blue;
 }
 
-.apple {
+.bug {
   background-image: url("./trans-backg-ittybittybug.png");
 }
 

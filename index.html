@@ -17,7 +17,13 @@
   <body>
     <!-- following freeCodeCamp's snake game tutorial -->
     <h1 class="title">TITANOBOA RUN</h1>
-    <div class="score-display"></div>
+    <div class="scoreboard">
+      <p class="score">Score: <span class="score-count"></span>
+      </p>
+      <p class="stopwatch">
+        <span class="minutes">01</span>:<span class="seconds">21</span>:<span class="tenths">69</span>
+      </p>
+    </div>
     <div class="grid"></div>
 
     <!-- inserting audio as html elements here because apparently that's the easiest way to access them from the script file, can't just use the filepath url, like come on. -->
@@ -80,7 +86,7 @@
     </div>
 
     <div class="modal-container">
-      <p class="user-score">72</p>
+      <p class="user-score"></p>
       <h1 class="modal-msg">who are you</h1>
       <form class="player-name">
         <input
