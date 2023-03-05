@@ -27,7 +27,6 @@ const playAgain = document.querySelector(".play-again");
 const saveScore = document.querySelector(".save-score");
 const viewScores = document.querySelector(".view-scores");
 const giveUp = document.querySelector(".give-up");
-const pauseBtn = document.querySelector(".pause");
 const scoreCount = document.querySelector(".score-count");
 
 const minutes = document.querySelector(".minutes");
@@ -152,14 +151,12 @@ const startGame = () => {
 
 const setStyling = (squares) => {
   popup.style.display = "none";
-  pauseBtn.style.display = "none";
   submitModal.style.display = "none";
   playerInput.style.display = "flex";
   submitBtn.style.display = "flex";
   hsModal.style.display = "none";
   emoji.innerHTML = "🥺";
   plead.innerHTML = " give up?";
-  pauseBtn.style.display = "none";
 
   // so, turns out I just needed to change the order of code in startGame to fix the bug spawn issue. This forEach still helps clean things up each game.
   // TODO nope, I've seen it happen again since
@@ -540,19 +537,21 @@ function showSaveModal() {
   submitModal.style.display = "flex";
 }
 
-giveUp.addEventListener("click", function () {
-  sadSnek.play();
-  emoji.innerHTML = "😭";
-  plead.innerHTML = " I can't believe you've done this";
-  pauseBtn.style.display = "flex";
-});
-
-pauseBtn.addEventListener("click", function () {
-  sadSnek.pause();
-  emoji.innerHTML = "🥺";
-  plead.innerHTML = " give up?";
-  pauseBtn.style.display = "none";
-});
+giveUp.addEventListener("click", giveUpHandler);
+let sadState = false;
+function giveUpHandler() {
+  if (!sadState) {
+    sadState = true;
+    sadSnek.play();
+    emoji.innerHTML = "😭";
+    plead.innerHTML = " I can't believe you've done this";
+  } else {
+    sadState = false;
+    sadSnek.pause();
+    emoji.innerHTML = "🥺";
+    plead.innerHTML = " give up?";
+  }
+}
 
 submitBtn.addEventListener("click", function () {
   let playerName = playerInput.value.trim();
