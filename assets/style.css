@@ -256,11 +256,16 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-.user-score {
-  font-size: 44px;
+.player-score {
+  font-size: 38px;
+  animation: user-score 10s infinite alternate;
+}
+
+.player-time {
+  font-size: 26px;
   position: relative;
-  bottom: 20px;
-  animation: user-score 5s infinite alternate;
+  bottom: 60px;
+  animation: user-score 10s infinite alternate-reverse;
 }
 
 @keyframes user-score {
@@ -355,6 +360,11 @@ body {
   text-align: center;
 }
 
+.hs-col-hdr {
+  font-family: Righteous, cursive;
+  font-size: 12px;
+}
+
 .list-columns {
   display: flex;
   flex-direction: row;
@@ -368,14 +378,24 @@ body {
   flex: 1 1 auto;
 }
 
+.times {
+  flex: 0 1 auto;
+}
+
 .names-list,
-.scores-list {
+.scores-list,
+.times-list {
   list-style-type: none;
   font-family: 'Roboto', sans-serif;
   font-size: 10px;
   font-weight: 600;
   text-align: center;
   line-height: 2;
+  padding: 0 4px;
+}
+
+.names-list {
+  text-align: left;
 }
 
 .hs-return-btn {

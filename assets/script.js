@@ -39,7 +39,8 @@ let stopWatchInterval;
 
 const submitModal = document.querySelector(".modal-container");
 const modalMsg = document.querySelector(".modal-msg");
-const playerScore = document.querySelector(".user-score");
+const playerScore = document.querySelector(".player-score");
+const playerTime = document.querySelector(".player-time");
 const playerInput = document.querySelector("#player-input");
 const submitBtn = document.querySelector(".submit-btn");
 const returnBtn = document.querySelector(".return-btn");
@@ -47,6 +48,7 @@ const returnBtn = document.querySelector(".return-btn");
 const hsModal = document.querySelector(".highscores-modal");
 const namesList = document.querySelector(".names-list");
 const scoresList = document.querySelector(".scores-list");
+const timesList = document.querySelector(".times-list");
 const hsReturn = document.querySelector(".hs-return-btn");
 
 let down = document.querySelector(".bottom");
@@ -85,6 +87,21 @@ document.addEventListener("DOMContentLoaded", function () {
 const renderScores = () => {
   namesList.innerHTML = "";
   scoresList.innerHTML = "";
+  timesList.innerHTML = "";
+
+  let namesHdr = document.createElement("li");
+  namesHdr.classList.add("hs-col-hdr");
+  namesHdr.textContent = "player";
+  let scoresHdr = document.createElement("li");
+  scoresHdr.classList.add("hs-col-hdr");
+  scoresHdr.textContent = "score";
+  let timesHdr = document.createElement("li");
+  timesHdr.classList.add("hs-col-hdr");
+  timesHdr.textContent = "time";
+
+  namesList.appendChild(namesHdr);
+  scoresList.appendChild(scoresHdr);
+  timesList.appendChild(timesHdr);
 
   let scoreList = JSON.parse(localStorage.getItem("titan-scores"));
   if (scoreList !== null) {
@@ -98,14 +115,18 @@ const renderScores = () => {
   for (var i = 0; i < highscores.length; i++) {
     let name = highscores[i].playerName;
     let score = highscores[i].score;
+    let time = highscores[i].endTime;
 
     let nameLi = document.createElement("li");
     nameLi.textContent = name;
     let scoreLi = document.createElement("li");
     scoreLi.textContent = score;
+    let timeLi = document.createElement("li");
+    timeLi.textContent = time;
 
     namesList.appendChild(nameLi);
     scoresList.appendChild(scoreLi);
+    timesList.appendChild(timeLi);
   }
 };
 
@@ -291,9 +312,8 @@ function eatBug(squares, tail) {
 
 function randomBug(squares) {
   // my first use of a do while loop yaaaaay ---- loops through random grid points to place a new bug as long as the snake isn't already there
-  // TODO it is STILL not working, but of course it wont spawn a bug on the snake when I console log to debug   >:(  well I guess as long as this console log is here it wont do it so I'll call it fixed.
+  // it is apparently working for the time being, but you can never be too sure........
   do {
-    console.log(bugIndex, "-----", squares[bugIndex].classList);
     bugIndex = Math.floor(Math.random() * squares.length);
   } while (squares[bugIndex].classList.contains("snake"));
 
@@ -362,29 +382,6 @@ function handleBoost(e) {
     interval = setInterval(moveOutcome, intervalTime);
   }
 }
-
-// (event) => {
-//   console.log(event.key);
-//   switch (event.key) {
-//     case "Shift":
-//       if (event.repeat) {
-//         break;
-//       }
-//       clearInterval(interval);
-//       intervalTime = intervalTime * 0.5;
-//       interval = setInterval(moveOutcome, intervalTime);
-//       break;
-//   }
-// });
-//  => {
-//   switch (event.key) {
-//     case "Shift":
-//       clearInterval(interval);
-//       intervalTime = intervalTime * 2;
-//       interval = setInterval(moveOutcome, intervalTime);
-//       break;
-//   }
-// });
 
 // event listeners for mobile
 // direction buttons
@@ -533,8 +530,12 @@ function endGame() {
   }, 250);
 }
 
+let endTime;
+
 function showSaveModal() {
-  playerScore.innerHTML = score;
+  playerScore.innerHTML = "Score: " + score;
+  endTime = minutes.innerHTML + ":" + seconds.innerHTML + ":" + tenths.innerHTML;
+  playerTime.innerHTML = "Time: " + endTime;
   submitModal.style.display = "flex";
 }
 
@@ -559,7 +560,7 @@ submitBtn.addEventListener("click", function () {
   if (!playerName) {
     playerName = "unknown";
   }
-  let userEntry = { playerName, score };
+  let userEntry = { playerName, score, endTime };
 
   highscores.push(userEntry);
 
