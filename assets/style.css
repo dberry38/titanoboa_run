@@ -23,6 +23,7 @@ body {
   width: 100px;
   height: 100px;
   user-select: none;
+  font-weight: 600;
 }
 
 .top {
@@ -77,6 +78,7 @@ body {
   width: 200px;
   margin: 0.5rem auto;
   font-size: 18px;
+  font-weight: 600;
   flex: 1 1 auto;
 }
 
@@ -144,6 +146,9 @@ body {
 /* extent of tutorial */
 
 .death-msg {
+  font-family: Roboto, sans serif;
+  font-weight: 600;
+  font-size: 22px;
   color: white;
   text-align: center;
   position: relative;
@@ -159,6 +164,7 @@ body {
 }
 
 .play-again {
+  font-family: Roboto, sans serif;
   height: 50px;
   width: 150px;
   margin-bottom: 10px;
@@ -172,6 +178,7 @@ body {
 }
 
 .save-score {
+  font-family: Roboto, sans serif;
   height: 50px;
   width: 150px;
   margin-bottom: 10px;
@@ -185,6 +192,7 @@ body {
 }
 
 .view-scores {
+  font-family: Roboto, sans serif;
   height: 50px;
   width: 150px;
   border-radius: 3.5vw / 25%;
@@ -197,6 +205,7 @@ body {
 }
 
 .give-up {
+  font-family: Roboto, sans serif;
   display: flex;
   justify-content: center;
   align-items: center;
