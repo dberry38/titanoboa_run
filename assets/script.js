@@ -214,9 +214,9 @@ function startTime() {
 function moveOutcome() {
   let squares = document.querySelectorAll(".grid div");
   if (checkForHits(squares)) {
-    endGame();
     clearInterval(stopWatchInterval);
-    return clearInterval(interval);
+    clearInterval(interval);
+    setTimeout(endGame, 2000);
   } else {
     moveSnake(squares);
   }
