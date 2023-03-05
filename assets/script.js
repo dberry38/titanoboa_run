@@ -136,7 +136,7 @@ const startGame = () => {
   intervalTime = 1000;
 
   // defines where snake is on grid
-  currentSnake = [2, 1, 0];
+  currentSnake = [98, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97];
   currentIndex = 0;
   currentSnake.forEach((index) => squares[index].classList.add("snake"));
   interval = setInterval(moveOutcome, intervalTime);
@@ -226,9 +226,10 @@ function moveSnake(squares) {
   let tail = currentSnake.pop();
   squares[tail].classList.remove("snake");
   currentSnake.unshift(currentSnake[0] + direction);
-  // movement ends here, then check for bugs
-  eatBug(squares, tail);
+  // movement ends here, then check for bug eating
   squares[currentSnake[0]].classList.add("snake");
+  // above and below lines were originally switched, this order prevents the bug from spawning on a snake square
+  eatBug(squares, tail);
 }
 
 function checkForHits(squares) {
@@ -278,13 +279,13 @@ function eatBug(squares, tail) {
     // this is where we try audio for the first time bear with us
     chomp.play();
 
-    randomBug(squares);
     score++;
     musicMatch();
     scoreCount.textContent = score;
     clearInterval(interval);
     intervalTime = intervalTime * speed;
     interval = setInterval(moveOutcome, intervalTime);
+    randomBug(squares);
   }
 }
 
@@ -292,8 +293,8 @@ function randomBug(squares) {
   // my first use of a do while loop yaaaaay ---- loops through random grid points to place a new bug as long as the snake isn't already there
   // TODO it is STILL not working, but of course it wont spawn a bug on the snake when I console log to debug   >:(  well I guess as long as this console log is here it wont do it so I'll call it fixed.
   do {
-    bugIndex = Math.floor(Math.random() * squares.length);
     console.log(bugIndex, "-----", squares[bugIndex].classList);
+    bugIndex = Math.floor(Math.random() * squares.length);
   } while (squares[bugIndex].classList.contains("snake"));
 
   squares[bugIndex].classList.add("bug");
@@ -591,7 +592,6 @@ function replay() {
   createBoard();
   startGame();
   popup.style.display = "none";
-  pauseBtn.style.display = "none";
   playAgain.removeEventListener("click", replay);
 }
 
