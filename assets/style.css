@@ -431,3 +431,16 @@ body {
     background-position: -340px;
   }
 }
+
+.blood {
+  background-image: url("./animations/trans-blood-scaleddown.png");
+  width: 20px;
+  height: 20px;
+  animation: bleeding 0.666s steps(6) infinite;
+}
+
+@keyframes bleeding {
+  100% {
+    background-position: -120px;
+  }
+}
