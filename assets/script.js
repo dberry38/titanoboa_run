@@ -553,47 +553,24 @@ function explodeySnake(squares) {
 }
 
 function bloodySnake(squares) {
-  squares[currentSnake[0]].classList.add("blood");
-  squares[(currentSnake[0] + direction)].classList.add("blood");
+  setInterval(function () {
+    squares[currentSnake[0]].classList.add("blood");
+  }, 100);
+  setInterval(function () {
+    squares[currentSnake[0] + direction].classList.add("blood");
+  }, 250);
 
-  let c = 1;
-
-  let bleeding = setInterval(function () {
-    if (c > 0) {
-      c--;
-    } else {
-      clearInterval(bleeding);
-      currentSnake.forEach((seg) => {
-        squares[seg].classList.remove("blood");
-      });
-    }
-  }, 1000);
+  // I spent an absurd amount of time here, trying to get these to end the animation when the endgame modal comes up, like the explodeysnake. Something about the setIntervals doesn't like being told to stop after you use it to start. I'm probably missing something basic here, but in the end I decided that it looks fine with the blood continuing to spurt.
 }
-
-// quarter second timer to prevent accidental hit on play again button immediately after game from restarting right away
 
 function endGame() {
   submitModal.style.display = "none";
   popup.style.display = "flex";
-  playAgain.innerHTML = "";
-  saveScore.innerHTML = "";
-  viewScores.innerHTML = "";
-
-  // this solved the issue with the score submit screen throwing handleBoost and causing setinterval issues, closing the submit modal.
-
-  let t = 1;
-  let holdUp = setInterval(function () {
-    if (t > 0) {
-      t--;
-    } else {
-      clearInterval(holdUp);
-      playAgain.innerHTML = "play again";
-      playAgain.addEventListener("click", replay);
-      saveScore.innerHTML = "save score";
-      saveScore.addEventListener("click", showSaveModal);
-      viewScores.innerHTML = "view scores";
-    }
-  }, 250);
+  playAgain.innerHTML = "play again";
+  playAgain.addEventListener("click", replay);
+  saveScore.innerHTML = "save score";
+  saveScore.addEventListener("click", showSaveModal);
+  viewScores.innerHTML = "view scores";
 }
 
 let endTime = [];
@@ -611,6 +588,7 @@ let sadState = false;
 function giveUpHandler() {
   if (!sadState) {
     sadState = true;
+    sadSnek.load(); //this acts as a reset for the audio
     sadSnek.play();
     emoji.innerHTML = "😭";
     plead.innerHTML = " I can't believe you've done this";
@@ -667,7 +645,6 @@ function replay() {
 
 // TODO add custom grid size
 // TODO??? add custom grid layout,,, Probably more like new levels
-// TODO add bananas (bad item)
 // TODO add a wiggle animation for snek
 // TODO add some sort of movement for ladybugs
 // file is getting long but we've got to go deperrrrrrrrrrrr
