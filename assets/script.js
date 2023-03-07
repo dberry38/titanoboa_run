@@ -113,14 +113,19 @@ const renderScores = () => {
 
   // sort data
   highscores.sort(function (a, b) {
-    return b.score - a.score || a.endTime[0] - b.endTime[0] || a.endTime[2] - b.endTime[2] || a.endTime[4] - b.endTime[4]; 
+    return (
+      b.score - a.score ||
+      a.endTime[0] - b.endTime[0] ||
+      a.endTime[2] - b.endTime[2] ||
+      a.endTime[4] - b.endTime[4]
+    );
   });
 
   // create list items
   for (var i = 0; i < highscores.length; i++) {
     let name = highscores[i].playerName;
     let score = highscores[i].score;
-    let time = highscores[i].endTime.join('');
+    let time = highscores[i].endTime.join("");
 
     let nameLi = document.createElement("li");
     nameLi.textContent = name;
@@ -247,7 +252,7 @@ function moveOutcome() {
   if (checkForHits(squares)) {
     clearInterval(stopWatchInterval);
     clearInterval(interval);
-    
+
     easyMusic.pause();
     mediumMusic.pause();
     hardMusic.pause();
@@ -261,7 +266,7 @@ function moveOutcome() {
 
     document.removeEventListener("keydown", handleBoost);
     document.removeEventListener("keyup", handleBoost);
-    
+
     setTimeout(endGame, 2000);
   } else {
     moveSnake(squares);
@@ -348,13 +353,12 @@ function eatBroccoli(squares, tail) {
 
     if (score > 0) {
       score--;
-    };
+    }
 
     musicMatch();
     scoreCount.textContent = score;
 
     randomBroccoli(squares);
-
   }
 }
 
@@ -364,10 +368,7 @@ function randomBroccoli(squares) {
   } while (squares[bugIndex].classList.contains("snake", "bug"));
 
   squares[bugIndex].classList.add("yuck");
-
 }
-
-
 
 // had to restructure the listener for keyboard use, maybe the tutorial's method is deprecated
 
@@ -582,7 +583,7 @@ function showSaveModal() {
   playerScore.innerHTML = "Score: " + score;
   endTime = [minutes.innerHTML, ":", seconds.innerHTML, ":", tenths.innerHTML];
   // making endTime an array instead of just a string of strings helps to sort the scores on the highscore modal
-  playerTime.innerHTML = "Time: " + endTime.join('');
+  playerTime.innerHTML = "Time: " + endTime.join("");
   submitModal.style.display = "flex";
 }
 
