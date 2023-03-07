@@ -60,7 +60,6 @@ let up = document.querySelector(".top");
 let boost = document.querySelector(".boost-btn");
 
 let width = 10;
-let currentIndex = 0;
 let bugIndex = 0;
 let direction = 0;
 
@@ -148,6 +147,12 @@ const createBoard = () => {
 const startGame = () => {
   let squares = document.querySelectorAll(".grid div");
 
+  document.addEventListener("keydown", snakeControl);
+  up.addEventListener("click", moveUp);
+  down.addEventListener("click", moveDown);
+  left.addEventListener("click", moveLeft);
+  right.addEventListener("click", moveRight);
+
   minutes.innerHTML = "00";
   seconds.innerHTML = "00";
   tenths.innerHTML = "00";
@@ -164,7 +169,6 @@ const startGame = () => {
 
   // defines where snake is on grid
   currentSnake = [2, 1, 0];
-  currentIndex = 0;
   currentSnake.forEach((index) => squares[index].classList.add("snake"));
   interval = setInterval(moveOutcome, intervalTime);
 
@@ -366,7 +370,6 @@ function randomBroccoli(squares) {
 
 
 // had to restructure the listener for keyboard use, maybe the tutorial's method is deprecated
-document.addEventListener("keydown", snakeControl);
 
 function snakeControl() {
   if (event.defaultPrevented) {
@@ -428,38 +431,31 @@ function handleBoost(e) {
   }
 }
 
-// event listeners for mobile
-// direction buttons
-up.addEventListener("click", moveUp);
+// event listeners for mobile now in startGame
+// direction button functions
 function moveUp() {
   if (currentSnake[1] != currentSnake[0] - width) {
     direction = -width;
   }
 }
 
-down.addEventListener("click", moveDown);
 function moveDown() {
   if (currentSnake[1] != currentSnake[0] + width) {
     direction = +width;
   }
 }
 
-left.addEventListener("click", moveLeft);
 function moveLeft() {
   if (currentSnake[1] != currentSnake[0] - 1) {
     direction = -1;
   }
 }
 
-right.addEventListener("click", moveRight);
 function moveRight() {
   if (currentSnake[1] != currentSnake[0] + 1) {
     direction = 1;
   }
 }
-
-// GREAT SUCCESS --- this is a much simpler method than I was led to believe would be necessary.
-// the success was actually just in the desktop browser, mobile needs more stuff i guess
 
 let boostState;
 // ^^^this is all that's left of the code i thought would work
