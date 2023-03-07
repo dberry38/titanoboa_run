@@ -243,6 +243,21 @@ function moveOutcome() {
   if (checkForHits(squares)) {
     clearInterval(stopWatchInterval);
     clearInterval(interval);
+    
+    easyMusic.pause();
+    mediumMusic.pause();
+    hardMusic.pause();
+
+    up.removeEventListener("click", moveUp);
+    down.removeEventListener("click", moveDown);
+    left.removeEventListener("click", moveLeft);
+    right.removeEventListener("click", moveRight);
+
+    document.removeEventListener("keydown", snakeControl);
+
+    document.removeEventListener("keydown", handleBoost);
+    document.removeEventListener("keyup", handleBoost);
+    
     setTimeout(endGame, 2000);
   } else {
     moveSnake(squares);
@@ -273,9 +288,6 @@ function checkForHits(squares) {
     //top
     (currentSnake[0] - width <= -1 && direction === -width)
   ) {
-    easyMusic.pause();
-    mediumMusic.pause();
-    hardMusic.pause();
     wallBoom.play();
     deathMsg.innerHTML = "you bumped a wall and exploded";
     explodeySnake(squares);
@@ -285,9 +297,6 @@ function checkForHits(squares) {
     // this final condition determines if the snake hurts itself in its confusion
     squares[currentSnake[0] + direction].classList.contains("snake")
   ) {
-    easyMusic.pause();
-    mediumMusic.pause();
-    hardMusic.pause();
     snekScream.play();
     deathMsg.innerHTML = "you chomped on yourself and died horribly";
     // game ends
@@ -421,26 +430,33 @@ function handleBoost(e) {
 
 // event listeners for mobile
 // direction buttons
-up.addEventListener("click", function () {
+up.addEventListener("click", moveUp);
+function moveUp() {
   if (currentSnake[1] != currentSnake[0] - width) {
     direction = -width;
   }
-});
-down.addEventListener("click", function () {
+}
+
+down.addEventListener("click", moveDown);
+function moveDown() {
   if (currentSnake[1] != currentSnake[0] + width) {
     direction = +width;
   }
-});
-left.addEventListener("click", function () {
+}
+
+left.addEventListener("click", moveLeft);
+function moveLeft() {
   if (currentSnake[1] != currentSnake[0] - 1) {
     direction = -1;
   }
-});
-right.addEventListener("click", function () {
+}
+
+right.addEventListener("click", moveRight);
+function moveRight() {
   if (currentSnake[1] != currentSnake[0] + 1) {
     direction = 1;
   }
-});
+}
 
 // GREAT SUCCESS --- this is a much simpler method than I was led to believe would be necessary.
 // the success was actually just in the desktop browser, mobile needs more stuff i guess
@@ -548,8 +564,6 @@ function endGame() {
   viewScores.innerHTML = "";
 
   // this solved the issue with the score submit screen throwing handleBoost and causing setinterval issues, closing the submit modal.
-  document.removeEventListener("keydown", handleBoost);
-  document.removeEventListener("keyup", handleBoost);
 
   let t = 1;
   let holdUp = setInterval(function () {
