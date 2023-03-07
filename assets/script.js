@@ -127,7 +127,7 @@ const renderScores = () => {
   for (var i = 0; i < highscores.length; i++) {
     let name = highscores[i].playerName;
     let score = highscores[i].score;
-    let time = highscores[i].endTime;
+    let time = highscores[i].endTime.join("");
 
     let nameLi = document.createElement("li");
     nameLi.textContent = name;
