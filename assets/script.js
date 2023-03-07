@@ -1,6 +1,8 @@
 // now we experiment with sound
 const chomp = document.getElementById("chompski");
 chomp.volume = 0.1;
+const bleh = document.getElementById("bleh");
+bleh.volume = 0.3;
 const wallBoom = document.getElementById("wall-boom");
 wallBoom.volume = 0.2;
 const snekScream = document.getElementById("snek-scream");
@@ -64,7 +66,6 @@ let direction = 0;
 
 let score = 0;
 let speed = 0.9;
-// TODO write a function that adjusts the speed increase based on score/level, to slowly work difficulty up
 let intervalTime = 0;
 let interval = 0;
 
@@ -85,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const renderScores = () => {
-  // clear lists to rpevent repeats
+  // clear lists to prevent repeats
   namesList.innerHTML = "";
   scoresList.innerHTML = "";
   timesList.innerHTML = "";
@@ -113,7 +114,7 @@ const renderScores = () => {
 
   // sort data
   highscores.sort(function (a, b) {
-    return b.score - a.score || a.endTime[0] - b.endTime[0] || a.endTime[2] - b.endTime[2] || a.endTime[4] - b.endTime[4]; //🤮 works tho
+    return b.score - a.score || a.endTime[0] - b.endTime[0] || a.endTime[2] - b.endTime[2] || a.endTime[4] - b.endTime[4]; 
   });
 
   // create list items
@@ -168,6 +169,7 @@ const startGame = () => {
   interval = setInterval(moveOutcome, intervalTime);
 
   randomBug(squares);
+  randomBroccoli(squares);
   setStyling(squares);
   setHandleBoost();
   musicMatch();
@@ -185,7 +187,6 @@ const setStyling = (squares) => {
   plead.innerHTML = " give up?";
 
   // so, turns out I just needed to change the order of code in startGame to fix the bug spawn issue. This forEach still helps clean things up each game.
-  // TODO nope, I've seen it happen again since
   squares.forEach((sqr) => {
     sqr.classList.remove("burnt", "anim");
   });
@@ -256,6 +257,7 @@ function moveSnake(squares) {
   squares[currentSnake[0]].classList.add("snake");
   // above and below lines were originally switched, this order prevents the bug from spawning on a snake square
   eatBug(squares, tail);
+  eatBroccoli(squares, tail);
 }
 
 function checkForHits(squares) {
@@ -320,10 +322,39 @@ function randomBug(squares) {
   // it is apparently working for the time being, but you can never be too sure........
   do {
     bugIndex = Math.floor(Math.random() * squares.length);
-  } while (squares[bugIndex].classList.contains("snake"));
+  } while (squares[bugIndex].classList.contains("snake", "yuck"));
 
   squares[bugIndex].classList.add("bug");
 }
+
+function eatBroccoli(squares, tail) {
+  if (squares[currentSnake[0]].classList.contains("yuck")) {
+    squares[currentSnake[0]].classList.remove("yuck");
+
+    bleh.play();
+
+    if (score > 0) {
+      score--;
+    };
+
+    musicMatch();
+    scoreCount.textContent = score;
+
+    randomBroccoli(squares);
+
+  }
+}
+
+function randomBroccoli(squares) {
+  do {
+    bugIndex = Math.floor(Math.random() * squares.length);
+  } while (squares[bugIndex].classList.contains("snake", "bug"));
+
+  squares[bugIndex].classList.add("yuck");
+
+}
+
+
 
 // had to restructure the listener for keyboard use, maybe the tutorial's method is deprecated
 document.addEventListener("keydown", snakeControl);

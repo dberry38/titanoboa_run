@@ -117,6 +117,10 @@ body {
   background-image: url("./trans-backg-ittybittybug.png");
 }
 
+.yuck {
+  background-image: url("./trans-ittybitty-broccoli.png");
+}
+
 .boost-container {
   display: flex;
   justify-content: center;
