@@ -95,15 +95,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   createBoard();
 
-  window.scroll(0, 0);
-
   startScreen.addEventListener("click", okGO);
 });
 
 function okGO() {
   startScreen.style.display = "none";
-  renderScores();
   startGame();
+  renderScores();
 }
 
 const renderScores = () => {
@@ -463,7 +461,7 @@ function handleBoost(e) {
 }
 
 // event listeners for mobile now in startGame
-// direction button functions
+// direction button functions here
 function moveUp() {
   if (currentSnake[1] != currentSnake[0] - width) {
     direction = -width;
@@ -530,9 +528,9 @@ function notPressingDown(e) {
   cancelAnimationFrame(timerID);
   counter = 0;
   if (boostState) {
-    clearInterval(interval);
     boost.style.background = "rgb(222, 96, 29)";
     intervalTime = intervalTime * 2.0;
+    clearInterval(interval);
     interval = setInterval(moveOutcome, intervalTime);
     boostState = false;
   }
@@ -552,9 +550,9 @@ function timer() {
 
 function doSomething(e) {
   if (!boostState) {
-    clearInterval(interval);
     boost.style.background = "rgb(254, 164, 45)";
     intervalTime = intervalTime * 0.5;
+    clearInterval(interval);
     interval = setInterval(moveOutcome, intervalTime);
     boostState = true;
   }
