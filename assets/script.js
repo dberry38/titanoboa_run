@@ -95,6 +95,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   createBoard();
 
+  window.scroll(0, 0);
+
   startScreen.addEventListener("click", okGO);
 });
 
