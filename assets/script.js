@@ -121,8 +121,6 @@ const renderScores = () => {
     );
   });
 
-  console.log(highscores, 111111111);
-
   // create list items
   for (var i = 0; i < highscores.length; i++) {
     let name = highscores[i].playerName;
@@ -150,7 +148,6 @@ const createBoard = () => {
   }
 };
 
-//
 const startGame = () => {
   let squares = document.querySelectorAll(".grid div");
 
@@ -310,6 +307,7 @@ function checkForHits(squares) {
   ) {
     snekScream.play();
     deathMsg.innerHTML = "you chomped on yourself and died horribly";
+    bloodySnake(squares);
     // game ends
     return true;
   } else {
@@ -539,6 +537,7 @@ function explodeySnake(squares) {
     squares[seg].classList.add("anim");
     squares[seg].classList.add("burnt");
   });
+
   let ex = 1;
 
   let fire = setInterval(function () {
@@ -548,6 +547,24 @@ function explodeySnake(squares) {
       clearInterval(fire);
       currentSnake.forEach((seg) => {
         squares[seg].classList.remove("anim");
+      });
+    }
+  }, 1000);
+}
+
+function bloodySnake(squares) {
+  squares[currentSnake[0]].classList.add("blood");
+  squares[(currentSnake[0] + direction)].classList.add("blood");
+
+  let c = 1;
+
+  let bleeding = setInterval(function () {
+    if (c > 0) {
+      c--;
+    } else {
+      clearInterval(bleeding);
+      currentSnake.forEach((seg) => {
+        squares[seg].classList.remove("blood");
       });
     }
   }, 1000);
