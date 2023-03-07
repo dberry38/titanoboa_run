@@ -20,13 +20,14 @@
     <div class="scoreboard">
       <p class="score">Score: <span class="score-count"></span>
       </p>
+      <button class="mute-control"><span id="mute-icon">test</span></button>
       <p class="stopwatch">
         <span class="minutes">01</span>:<span class="seconds">21</span>:<span class="tenths">69</span>
       </p>
     </div>
     <div class="grid"></div>
 
-    <!-- inserting audio as html elements here because apparently that's the easiest way to access them from the script file, can't just use the filepath url, like come on. -->
+    <!-- inserting audio as html elements here because apparently that's the easiest way to access them from the script file, can't just use the filepath url. -->
     <audio id="chompski">
       <source src="./assets/audio/teeth-chomp-fx.mp3" type="audio/mp3" />
       something went wrong
@@ -86,6 +87,11 @@
         <p id="emoji">🥺</p>
         <p id="plead">give up?</p>
       </button>
+    </div>
+
+    <div class="start-screen">
+      <h1 class="warning">This game includes music and sound effects. Would you like to mute them?</h1>
+
     </div>
 
     <div class="modal-container">

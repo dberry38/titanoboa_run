@@ -86,6 +86,13 @@ body {
   text-align: end;
 }
 
+.mute-control {
+  font-size: 16px;
+  text-align: center;
+  position: relative;
+  bottom: 6px;
+}
+
 .grid-container {
   width: 100vw;
   min-width: 200px;
@@ -132,6 +139,13 @@ body {
   height: 40px;
   width: 200px;
   background-color: rgb(222, 96, 29);
+}
+
+.start-screen {
+  width: 200px;
+  height: 500px;
+  margin: 0 auto;
+  border: solid black 2px;
 }
 
 .popup {

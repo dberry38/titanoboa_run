@@ -16,6 +16,9 @@ easyMusic.volume = 0.3;
 const hardMusic = document.getElementById("hard-music");
 easyMusic.volume = 0.3;
 
+const muteBtn = document.querySelector(".mute-control");
+const muteIcon = document.getElementById("mute-icon");
+
 const emoji = document.getElementById("emoji");
 const plead = document.getElementById("plead");
 
@@ -629,6 +632,35 @@ viewScores.addEventListener("click", function () {
 hsReturn.addEventListener("click", function () {
   hsModal.style.display = "none";
 });
+
+muteBtn.addEventListener("click", muteHandler);
+let muteState = false;
+muteIcon.innerHTML = "🔊";
+function muteHandler() {
+  if (!muteState) {
+    chomp.volume = 0;
+    bleh.volume = 0;
+    wallBoom.volume = 0;
+    snekScream.volume = 0;
+    sadSnek.volume = 0;
+    easyMusic.volume = 0;
+    easyMusic.volume = 0;
+    easyMusic.volume = 0;
+    muteIcon.innerHTML = "🔇";
+    muteState = true;
+  } else {
+    chomp.volume = 0.1;
+    bleh.volume = 0.3;
+    wallBoom.volume = 0.2;
+    snekScream.volume = 0.2;
+    sadSnek.volume = 0.3;
+    easyMusic.volume = 0.3;
+    easyMusic.volume = 0.3;
+    easyMusic.volume = 0.3;
+    muteIcon.innerHTML = "🔊";
+    muteState = false;
+  }
+}
 
 // replay function
 function replay() {
