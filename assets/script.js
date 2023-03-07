@@ -85,10 +85,12 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const renderScores = () => {
+  // clear lists to rpevent repeats
   namesList.innerHTML = "";
   scoresList.innerHTML = "";
   timesList.innerHTML = "";
 
+  // create column titles
   let namesHdr = document.createElement("li");
   namesHdr.classList.add("hs-col-hdr");
   namesHdr.textContent = "player";
@@ -103,19 +105,22 @@ const renderScores = () => {
   scoresList.appendChild(scoresHdr);
   timesList.appendChild(timesHdr);
 
+  // parse localstorage
   let scoreList = JSON.parse(localStorage.getItem("titan-scores"));
   if (scoreList !== null) {
     highscores = scoreList;
   }
 
+  // sort data
   highscores.sort(function (a, b) {
-    return b.score - a.score;
+    return b.score - a.score || a.endTime[0] - b.endTime[0] || a.endTime[2] - b.endTime[2] || a.endTime[4] - b.endTime[4]; //🤮 works tho
   });
 
+  // create list items
   for (var i = 0; i < highscores.length; i++) {
     let name = highscores[i].playerName;
     let score = highscores[i].score;
-    let time = highscores[i].endTime;
+    let time = highscores[i].endTime.join('');
 
     let nameLi = document.createElement("li");
     nameLi.textContent = name;
@@ -530,12 +535,13 @@ function endGame() {
   }, 250);
 }
 
-let endTime;
+let endTime = [];
 
 function showSaveModal() {
   playerScore.innerHTML = "Score: " + score;
-  endTime = minutes.innerHTML + ":" + seconds.innerHTML + ":" + tenths.innerHTML;
-  playerTime.innerHTML = "Time: " + endTime;
+  endTime = [minutes.innerHTML, ":", seconds.innerHTML, ":", tenths.innerHTML];
+  // making endTime an array instead of just a string of strings helps to sort the scores on the highscore modal
+  playerTime.innerHTML = "Time: " + endTime.join('');
   submitModal.style.display = "flex";
 }
 
