@@ -557,7 +557,7 @@ function bloodySnake(squares) {
     squares[currentSnake[0]].classList.add("blood");
   }, 100);
   setInterval(function () {
-    squares[currentSnake[0] + direction].classList.add("blood");
+    squares[(currentSnake[0] + direction)].classList.add("blood");
   }, 250);
 
   // I spent an absurd amount of time here, trying to get these to end the animation when the endgame modal comes up, like the explodeysnake. Something about the setIntervals doesn't like being told to stop after you use it to start. I'm probably missing something basic here, but in the end I decided that it looks fine with the blood continuing to spurt.
