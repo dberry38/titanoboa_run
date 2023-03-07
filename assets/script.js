@@ -22,6 +22,8 @@ const muteIcon = document.getElementById("mute-icon");
 const emoji = document.getElementById("emoji");
 const plead = document.getElementById("plead");
 
+const startScreen = document.querySelector(".start-screen");
+
 // following freeCodeCamp's snake game tutorial
 
 // establishing a ton of variables
@@ -82,10 +84,25 @@ document.addEventListener("DOMContentLoaded", function () {
   // ^^^^ had to look into another method of doing this ^^^^
   // event listeners are now towards the bottom
 
-  renderScores();
+
+  
+  popup.style.display = "none";
+  submitModal.style.display = "none";
+  hsModal.style.display = "none";
+  minutes.innerHTML = "00";
+  seconds.innerHTML = "00";
+  tenths.innerHTML = "00";
+
   createBoard();
-  startGame();
+
+  startScreen.addEventListener("click", okGO);
 });
+
+function okGO() {
+  startScreen.style.display = "none";
+  renderScores();
+  startGame();
+}
 
 const renderScores = () => {
   // clear lists to prevent repeats
@@ -188,6 +205,8 @@ const startGame = () => {
   stopWatchInterval = setInterval(startTime, 10);
 };
 
+
+
 const setStyling = (squares) => {
   popup.style.display = "none";
   submitModal.style.display = "none";
@@ -197,7 +216,11 @@ const setStyling = (squares) => {
   emoji.innerHTML = "🥺";
   plead.innerHTML = " give up?";
 
-  // so, turns out I just needed to change the order of code in startGame to fix the bug spawn issue. This forEach still helps clean things up each game.
+  easyMusic.load();
+  mediumMusic.load();
+  hardMusic.load();
+
+  // so, turns out I just needed to change the order of code in startGame to fix the bug spawn issue. This forEach still helps clean things up each game. I think.
   squares.forEach((sqr) => {
     sqr.classList.remove("burnt", "anim");
   });
@@ -206,9 +229,11 @@ const setStyling = (squares) => {
 const musicMatch = () => {
   if (score < 6) {
     easyMusic.play();
+    mediumMusic.pause();
   } else if (score >= 6 && score < 16) {
     easyMusic.pause();
     mediumMusic.play();
+    hardMusic.pause();
   } else if (score >= 16) {
     mediumMusic.pause();
     hardMusic.play();
