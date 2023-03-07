@@ -92,7 +92,7 @@
       <p class="player-score"></p>
       <p class="player-time"></p>
       <h1 class="modal-msg">who are you</h1>
-      <form class="player-name">
+      <form class="player-name" onkeydown="return event.key != 'Enter'">
         <input
           id="player-input"
           type="text"
