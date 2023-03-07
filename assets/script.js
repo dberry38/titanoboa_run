@@ -121,11 +121,13 @@ const renderScores = () => {
     );
   });
 
+  console.log(highscores, 111111111);
+
   // create list items
   for (var i = 0; i < highscores.length; i++) {
     let name = highscores[i].playerName;
     let score = highscores[i].score;
-    let time = highscores[i].endTime.join("");
+    let time = highscores[i].endTime;
 
     let nameLi = document.createElement("li");
     nameLi.textContent = name;
