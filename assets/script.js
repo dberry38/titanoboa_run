@@ -295,6 +295,11 @@ function moveOutcome() {
     document.removeEventListener("keydown", handleBoost);
     document.removeEventListener("keyup", handleBoost);
 
+    boost.removeEventListener("mousedown", pressingDown, false);
+    boost.removeEventListener("touchstart", pressingDown, false);
+
+    notPressingDown();
+
     setTimeout(endGame, 2000);
   } else {
     moveSnake(squares);
@@ -512,13 +517,12 @@ let pressHoldEvent = new CustomEvent("pressHold");
 let pressHoldDuration = 1;
 
 // Listening for the mouse and touch events
-boost.addEventListener("mousedown", pressingDown, false);
 boost.addEventListener("mouseup", notPressingDown, false);
 boost.addEventListener("mouseleave", notPressingDown, false);
 
 boost.addEventListener("touchstart", pressingDown, false);
 boost.addEventListener("touchend", notPressingDown, false);
-boost.addEventListener("touchcancel", notPressingDown, false);
+// boost.addEventListener("touchcancel", notPressingDown, false);
 
 // Listening for our custom pressHold event
 boost.addEventListener("pressHold", doSomething, false);
@@ -766,6 +770,8 @@ function replay() {
   startGame();
   popup.style.display = "none";
   playAgain.removeEventListener("click", replay);
+  boost.addEventListener("touchstart", pressingDown, false);
+  boost.addEventListener("mousedown", pressingDown, false);
 }
 
 // extent of tutorial
