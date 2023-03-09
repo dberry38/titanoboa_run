@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
   seconds.innerHTML = "00";
   tenths.innerHTML = "00";
 
+  boost.addEventListener("mouseup", notPressingDown, false);
   createBoard();
 
   startScreen.addEventListener("click", okGO);
@@ -162,7 +163,7 @@ const renderScores = () => {
 
 const createBoard = () => {
   popup.getElementsByClassName.display = "none";
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 10; i++) {
     let div = document.createElement("div");
     grid.appendChild(div);
   }
@@ -178,7 +179,6 @@ const startGame = () => {
   down.addEventListener("click", moveDown);
   left.addEventListener("click", moveLeft);
   right.addEventListener("click", moveRight);
-
 
   minutes.innerHTML = "00";
   seconds.innerHTML = "00";
@@ -283,7 +283,7 @@ function moveOutcome() {
     easyMusic.pause();
     mediumMusic.pause();
     hardMusic.pause();
-    
+
     // removing all these event listeners here prevents bugs on the endgame screen
     up.removeEventListener("click", moveUp);
     down.removeEventListener("click", moveDown);
@@ -357,6 +357,7 @@ function eatBug(squares, tail) {
     currentSnake.push(tail);
 
     // this is where we try audio for the first time bear with us
+    chomp.load();
     chomp.play();
 
     score++;
@@ -377,7 +378,10 @@ function randomBug(squares) {
     console.log("bug - do", bugIndex, squares[bugIndex].classList);
     // trying this as an OR statement instead of passing snake and yuck together, I guess we'll see if that helps the invisible bug problem.
     // After extnesive testing, it appears that this longer while statement is working correctly. Same will now be done to broccoli.
-  } while (squares[bugIndex].classList.contains("snake") || squares[bugIndex].classList.contains("yuck"));
+  } while (
+    squares[bugIndex].classList.contains("snake") ||
+    squares[bugIndex].classList.contains("yuck")
+  );
 
   squares[bugIndex].classList.add("bug");
   console.log("bug placed", bugIndex);
@@ -387,6 +391,7 @@ function eatBroccoli(squares) {
   if (squares[currentSnake[0]].classList.contains("yuck")) {
     squares[currentSnake[0]].classList.remove("yuck");
 
+    bleh.load();
     bleh.play();
 
     if (score > 0) {
@@ -403,8 +408,11 @@ function eatBroccoli(squares) {
 function randomBroccoli(squares) {
   do {
     brocIndex = Math.floor(Math.random() * squares.length);
-    console.log("broccoli - do", brocIndex, squares[brocIndex].classList)
-  } while (squares[brocIndex].classList.contains("snake") || squares[brocIndex].classList.contains("bug"));
+    console.log("broccoli - do", brocIndex, squares[brocIndex].classList);
+  } while (
+    squares[brocIndex].classList.contains("snake") ||
+    squares[brocIndex].classList.contains("bug")
+  );
 
   squares[brocIndex].classList.add("yuck");
   console.log("broccoli placed", brocIndex);
@@ -518,11 +526,11 @@ let pressHoldDuration = 1;
 
 // Listening for the mouse and touch events
 boost.addEventListener("mouseup", notPressingDown, false);
+boost.addEventListener("mousedown", pressingDown, false);
 boost.addEventListener("mouseleave", notPressingDown, false);
 
 boost.addEventListener("touchstart", pressingDown, false);
 boost.addEventListener("touchend", notPressingDown, false);
-// boost.addEventListener("touchcancel", notPressingDown, false);
 
 // Listening for our custom pressHold event
 boost.addEventListener("pressHold", doSomething, false);
@@ -743,8 +751,8 @@ function muteHandler() {
     snekScream.volume = 0;
     sadSnek.volume = 0;
     easyMusic.volume = 0;
-    easyMusic.volume = 0;
-    easyMusic.volume = 0;
+    mediumMusic.volume = 0;
+    hardMusic.volume = 0;
     muteIcon.innerHTML = "🔇";
     muteState = true;
   } else {
@@ -754,8 +762,8 @@ function muteHandler() {
     snekScream.volume = 0.2;
     sadSnek.volume = 0.3;
     easyMusic.volume = 0.3;
-    easyMusic.volume = 0.3;
-    easyMusic.volume = 0.3;
+    mediumMusic.volume = 0.3;
+    hardMusic.volume = 0.3;
     muteIcon.innerHTML = "🔊";
     muteState = false;
   }
