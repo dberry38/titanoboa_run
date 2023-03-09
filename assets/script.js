@@ -75,6 +75,8 @@ let interval = 0;
 
 let highscores = [];
 
+let boostState;
+
 // starting functions
 
 // DOMContentLoaded activates this listener as soon as the html content is loaded on screen
@@ -176,11 +178,7 @@ const startGame = () => {
   down.addEventListener("click", moveDown);
   left.addEventListener("click", moveLeft);
   right.addEventListener("click", moveRight);
-  
-  boost.addEventListener("touchstart", pressingDown, false);
-  boost.addEventListener("touchend", notPressingDown, false);
-  boost.addEventListener("mousedown", pressingDown, false);
-  boost.addEventListener("mouseup", notPressingDown, false);
+
 
   minutes.innerHTML = "00";
   seconds.innerHTML = "00";
@@ -199,6 +197,8 @@ const startGame = () => {
   // defines where snake is on grid
   currentSnake = [2, 1, 0];
   currentSnake.forEach((index) => squares[index].classList.add("snake"));
+
+  clearInterval(interval);
   interval = setInterval(moveOutcome, intervalTime);
 
   randomBug(squares);
@@ -290,15 +290,12 @@ function moveOutcome() {
     left.removeEventListener("click", moveLeft);
     right.removeEventListener("click", moveRight);
 
-    boost.removeEventListener("touchstart", pressingDown, false);
-    boost.removeEventListener("touchend", notPressingDown, false);
-    boost.removeEventListener("mousedown", pressingDown, false);
-    boost.removeEventListener("mouseup", notPressingDown, false);
-
     document.removeEventListener("keydown", snakeControl);
 
     document.removeEventListener("keydown", handleBoost);
     document.removeEventListener("keyup", handleBoost);
+
+    boost.style.display = "none";
 
     setTimeout(endGame, 2000);
   } else {
@@ -498,7 +495,6 @@ function moveRight() {
   }
 }
 
-let boostState;
 // ^^^this is all that's left of the code i thought would work
 
 // i thought i was slick but i had to go back to kirupa.com
