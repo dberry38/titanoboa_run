@@ -219,12 +219,6 @@ const setStyling = (squares) => {
 
   bloodArray = [];
   frame = 0;
-
-  // so, turns out I just needed to change the order of code in startGame to fix the bug spawn issue. This forEach still helps clean things up each game. I think.
-
-  squares.forEach((sqr) => {
-    sqr.classList.remove("burnt", "anim", "blood", "bloodpool");
-  });
 };
 
 const musicMatch = () => {
@@ -290,6 +284,7 @@ function moveOutcome() {
     down.removeEventListener("click", moveDown);
     left.removeEventListener("click", moveLeft);
     right.removeEventListener("click", moveRight);
+    boost.removeEventListener("pressHold", doSomething);
 
     document.removeEventListener("keydown", snakeControl);
 
@@ -591,10 +586,12 @@ function explodeySnake(squares) {
 function bloodySnake(squares) {
   // using setTimeOut here instead of setInterval prevents a stackoverflow of errors about classList
   setTimeout(function () {
-    squares[currentSnake[0]].classList.add("blood");
+    let headOfSnek = squares[currentSnake[0]].classList;
+    headOfSnek.add("blood");
   }, 100);
   setTimeout(function () {
-    squares[currentSnake[0] + direction].classList.add("blood");
+    let snekBiteOw = squares[currentSnake[0] + direction].classList;
+    snekBiteOw.add("blood");
   }, 250);
 
   setTimeout(function () {
@@ -653,6 +650,11 @@ function bloodPool(squares) {
       bloodPool(squares);
     }, 750);
   }
+
+  // if (frame = 5) {
+  //   headOfSnek.remove("blood");
+  //   snekBiteOw.remove("blood");
+  // }
 }
 
 function endGame() {
