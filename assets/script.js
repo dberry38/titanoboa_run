@@ -216,7 +216,11 @@ const setStyling = (squares) => {
   mediumMusic.load();
   hardMusic.load();
 
+  bloodArray = [];
+  frame = 0;
+
   // so, turns out I just needed to change the order of code in startGame to fix the bug spawn issue. This forEach still helps clean things up each game. I think.
+
   squares.forEach((sqr) => {
     sqr.classList.remove("burnt", "anim", "blood", "bloodpool");
   });
@@ -279,7 +283,8 @@ function moveOutcome() {
     easyMusic.pause();
     mediumMusic.pause();
     hardMusic.pause();
-
+    
+    // removing all these event listeners here prevents bugs on the endgame screen
     up.removeEventListener("click", moveUp);
     down.removeEventListener("click", moveDown);
     left.removeEventListener("click", moveLeft);
@@ -364,11 +369,11 @@ function randomBug(squares) {
   // it is apparently working for the time being, but you can never be too sure........
   do {
     bugIndex = Math.floor(Math.random() * squares.length);
-    console.log(bugIndex, squares[bugIndex].classList);
+    console.log(bugIndex, squares[bugIndex].classList, "this console log is watching for invisible bugs");
   } while (squares[bugIndex].classList.contains("snake", "yuck"));
 
   squares[bugIndex].classList.add("bug");
-  console.log(bugIndex);
+  console.log(bugIndex, "this console log helps the other one");
 }
 
 function eatBroccoli(squares) {
