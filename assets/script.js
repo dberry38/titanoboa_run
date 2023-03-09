@@ -176,6 +176,7 @@ const startGame = () => {
   down.addEventListener("click", moveDown);
   left.addEventListener("click", moveLeft);
   right.addEventListener("click", moveRight);
+  boost.addEventListener("pressHold", doSomething, false);
 
   minutes.innerHTML = "00";
   seconds.innerHTML = "00";
