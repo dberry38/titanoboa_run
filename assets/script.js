@@ -62,6 +62,7 @@ let down = document.querySelector(".bottom");
 let left = document.querySelector(".left");
 let right = document.querySelector(".right");
 let up = document.querySelector(".top");
+let booCon = document.querySelector(".boost-container");
 let boost = document.querySelector(".boost-btn");
 
 let width = 10;
@@ -217,6 +218,7 @@ const setStyling = (squares) => {
   hsModal.style.display = "none";
   emoji.innerHTML = "🥺";
   plead.innerHTML = " give up?";
+  booCon.style.display = "flex";
 
   easyMusic.load();
   mediumMusic.load();
@@ -295,7 +297,7 @@ function moveOutcome() {
     document.removeEventListener("keydown", handleBoost);
     document.removeEventListener("keyup", handleBoost);
 
-    boost.style.display = "none";
+    booCon.style.display = "none";
 
     setTimeout(endGame, 2000);
   } else {
