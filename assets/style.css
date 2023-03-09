@@ -472,3 +472,7 @@ body {
     background-position: -120px;
   }
 }
+
+.bloodpool {
+  background: rgb(197, 2, 2);
+}

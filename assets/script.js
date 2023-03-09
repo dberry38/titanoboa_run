@@ -84,8 +84,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // ^^^^ had to look into another method of doing this ^^^^
   // event listeners are now towards the bottom
 
-
-  
   popup.style.display = "none";
   submitModal.style.display = "none";
   hsModal.style.display = "none";
@@ -205,8 +203,6 @@ const startGame = () => {
   stopWatchInterval = setInterval(startTime, 10);
 };
 
-
-
 const setStyling = (squares) => {
   popup.style.display = "none";
   submitModal.style.display = "none";
@@ -222,7 +218,7 @@ const setStyling = (squares) => {
 
   // so, turns out I just needed to change the order of code in startGame to fix the bug spawn issue. This forEach still helps clean things up each game. I think.
   squares.forEach((sqr) => {
-    sqr.classList.remove("burnt", "anim");
+    sqr.classList.remove("burnt", "anim", "blood", "bloodpool");
   });
 };
 
@@ -368,12 +364,14 @@ function randomBug(squares) {
   // it is apparently working for the time being, but you can never be too sure........
   do {
     bugIndex = Math.floor(Math.random() * squares.length);
+    console.log(bugIndex, squares[bugIndex].classList);
   } while (squares[bugIndex].classList.contains("snake", "yuck"));
 
   squares[bugIndex].classList.add("bug");
+  console.log(bugIndex);
 }
 
-function eatBroccoli(squares, tail) {
+function eatBroccoli(squares) {
   if (squares[currentSnake[0]].classList.contains("yuck")) {
     squares[currentSnake[0]].classList.remove("yuck");
 
@@ -581,14 +579,70 @@ function explodeySnake(squares) {
 }
 
 function bloodySnake(squares) {
-  setInterval(function () {
+  // using setTimeOut here instead of setInterval prevents a stackoverflow of errors about classList
+  setTimeout(function () {
     squares[currentSnake[0]].classList.add("blood");
   }, 100);
-  setInterval(function () {
-    squares[(currentSnake[0] + direction)].classList.add("blood");
+  setTimeout(function () {
+    squares[currentSnake[0] + direction].classList.add("blood");
   }, 250);
 
-  // I spent an absurd amount of time here, trying to get these to end the animation when the endgame modal comes up, like the explodeysnake. Something about the setIntervals doesn't like being told to stop after you use it to start. I'm probably missing something basic here, but in the end I decided that it looks fine with the blood continuing to spurt.
+  setTimeout(function () {
+    bloodPool(squares);
+  }, 500);
+}
+
+// TODO NOT TODO ------------ GREAT SUCCESS
+// Bleeding animation is finally working as intended!!!!!
+let bloodArray = [];
+let frame = 0;
+function bloodPool(squares) {
+  squares.forEach((sqr, i) => {
+    if (
+      sqr.classList.contains("blood") ||
+      sqr.classList.contains("bloodpool")
+    ) {
+      bloodArray.push(i);
+    }
+  });
+
+  bloodArray.forEach((bloodSqr) => {
+    // this first if statement and the second below prevent the animation from 'teleporting' to the other side of the grid
+    if (
+      bloodSqr - 1 >= 0 &&
+      !squares[bloodSqr - 1].classList.contains("snake") &&
+      bloodSqr % 10 != 0
+    ) {
+      squares[bloodSqr - 1].classList.add("bloodpool");
+    }
+    if (
+      bloodSqr + 1 <= 99 &&
+      !squares[bloodSqr + 1].classList.contains("snake") &&
+      (bloodSqr + 1) % 10 != 0
+    ) {
+      squares[bloodSqr + 1].classList.add("bloodpool");
+    }
+    if (
+      bloodSqr - width >= 0 &&
+      !squares[bloodSqr - width].classList.contains("snake")
+    ) {
+      squares[bloodSqr - width].classList.add("bloodpool");
+    }
+    if (
+      bloodSqr + width <= 99 &&
+      !squares[bloodSqr + width].classList.contains("snake")
+    ) {
+      squares[bloodSqr + width].classList.add("bloodpool");
+    }
+  });
+
+  frame++;
+
+  if (frame < 5) {
+    setTimeout(function () {
+      bloodPool(squares);
+    }, 750);
+  }
 }
 
 function endGame() {
