@@ -62,7 +62,6 @@ let down = document.querySelector(".bottom");
 let left = document.querySelector(".left");
 let right = document.querySelector(".right");
 let up = document.querySelector(".top");
-let booCon = document.querySelector(".boost-container");
 let boost = document.querySelector(".boost-btn");
 
 let width = 10;
@@ -218,7 +217,6 @@ const setStyling = (squares) => {
   hsModal.style.display = "none";
   emoji.innerHTML = "🥺";
   plead.innerHTML = " give up?";
-  booCon.style.display = "flex";
 
   easyMusic.load();
   mediumMusic.load();
@@ -296,8 +294,6 @@ function moveOutcome() {
 
     document.removeEventListener("keydown", handleBoost);
     document.removeEventListener("keyup", handleBoost);
-
-    booCon.style.display = "none";
 
     setTimeout(endGame, 2000);
   } else {
@@ -522,6 +518,7 @@ boost.addEventListener("mouseleave", notPressingDown, false);
 
 boost.addEventListener("touchstart", pressingDown, false);
 boost.addEventListener("touchend", notPressingDown, false);
+boost.addEventListener("touchcancel", notPressingDown, false);
 
 // Listening for our custom pressHold event
 boost.addEventListener("pressHold", doSomething, false);
