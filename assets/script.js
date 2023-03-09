@@ -169,6 +169,8 @@ const createBoard = () => {
 const startGame = () => {
   let squares = document.querySelectorAll(".grid div");
 
+  setStyling(squares);
+
   document.addEventListener("keydown", snakeControl);
   up.addEventListener("click", moveUp);
   down.addEventListener("click", moveDown);
@@ -195,10 +197,9 @@ const startGame = () => {
   interval = setInterval(moveOutcome, intervalTime);
 
   randomBug(squares);
-  randomBroccoli(squares);
-  setStyling(squares);
   setHandleBoost();
   musicMatch();
+  randomBroccoli(squares);
   clearInterval(startTime);
   stopWatchInterval = setInterval(startTime, 10);
 };
@@ -369,11 +370,13 @@ function randomBug(squares) {
   // it is apparently working for the time being, but you can never be too sure........
   do {
     bugIndex = Math.floor(Math.random() * squares.length);
-    console.log(bugIndex, squares[bugIndex].classList, "this console log is watching for invisible bugs");
-  } while (squares[bugIndex].classList.contains("snake", "yuck"));
+    console.log("bug - do", bugIndex, squares[bugIndex].classList);
+    // trying this as an OR statement instead of passing snake and yuck together, I guess we'll see if that helps the invisible bug problem.
+    // After extnesive testing, it appears that this longer while statement is working correctly. Same will now be done to broccoli.
+  } while (squares[bugIndex].classList.contains("snake") || squares[bugIndex].classList.contains("yuck"));
 
   squares[bugIndex].classList.add("bug");
-  console.log(bugIndex, "this console log helps the other one");
+  console.log("bug placed", bugIndex);
 }
 
 function eatBroccoli(squares) {
@@ -395,10 +398,12 @@ function eatBroccoli(squares) {
 
 function randomBroccoli(squares) {
   do {
-    bugIndex = Math.floor(Math.random() * squares.length);
-  } while (squares[bugIndex].classList.contains("snake", "bug"));
+    brocIndex = Math.floor(Math.random() * squares.length);
+    console.log("broccoli - do", brocIndex, squares[brocIndex].classList)
+  } while (squares[brocIndex].classList.contains("snake") || squares[brocIndex].classList.contains("bug"));
 
-  squares[bugIndex].classList.add("yuck");
+  squares[brocIndex].classList.add("yuck");
+  console.log("broccoli placed", brocIndex);
 }
 
 // had to restructure the listener for keyboard use, maybe the tutorial's method is deprecated
