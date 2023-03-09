@@ -176,7 +176,11 @@ const startGame = () => {
   down.addEventListener("click", moveDown);
   left.addEventListener("click", moveLeft);
   right.addEventListener("click", moveRight);
-  boost.addEventListener("pressHold", doSomething, false);
+  
+  boost.addEventListener("touchstart", pressingDown, false);
+  boost.addEventListener("touchend", notPressingDown, false);
+  boost.addEventListener("mousedown", pressingDown, false);
+  boost.addEventListener("mouseup", notPressingDown, false);
 
   minutes.innerHTML = "00";
   seconds.innerHTML = "00";
@@ -285,7 +289,11 @@ function moveOutcome() {
     down.removeEventListener("click", moveDown);
     left.removeEventListener("click", moveLeft);
     right.removeEventListener("click", moveRight);
-    boost.removeEventListener("pressHold", doSomething);
+
+    boost.removeEventListener("touchstart", pressingDown, false);
+    boost.removeEventListener("touchend", notPressingDown, false);
+    boost.removeEventListener("mousedown", pressingDown, false);
+    boost.removeEventListener("mouseup", notPressingDown, false);
 
     document.removeEventListener("keydown", snakeControl);
 
