@@ -456,20 +456,11 @@ function setTheControlsForTheHeartOfTheSun() {
   document.addEventListener("keydown", handleBoost);
   document.addEventListener("keyup", handleBoost);
 
-  document.addEventListener("keydown", snakeControl);
-  up.addEventListener("mousedown", moveUp);
-  down.addEventListener("mousedown", moveDown);
-  down.addEventListener("mousedown", function() {
-    console.log("mousedown");
-  });
-  down.addEventListener("click", function() {
-    console.log("click");
-  });
-  down.addEventListener("touchstart", function() {
-    console.log("touchstart");
-  });
-  left.addEventListener("mousedown", moveLeft);
-  right.addEventListener("mousedown", moveRight);
+  document.addEventListener("click", snakeControl);
+  up.addEventListener("click", moveUp);
+  // down.addEventListener("mousedown", moveDown);
+  left.addEventListener("click", moveLeft);
+  right.addEventListener("click", moveRight);
 }
 
 
@@ -495,28 +486,24 @@ function moveUp() {
   if (currentSnake[1] != currentSnake[0] - width) {
     direction = -width;
   }
-  event.preventDefault();
 }
 
 function moveDown() {
   if (currentSnake[1] != currentSnake[0] + width) {
     direction = +width;
   }
-  event.preventDefault();
 }
 
 function moveLeft() {
   if (currentSnake[1] != currentSnake[0] - 1) {
     direction = -1;
   }
-  event.preventDefault();
 }
 
 function moveRight() {
   if (currentSnake[1] != currentSnake[0] + 1) {
     direction = 1;
   }
-  event.preventDefault();
 }
 
 
