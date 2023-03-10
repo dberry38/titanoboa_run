@@ -458,7 +458,7 @@ function setTheControlsForTheHeartOfTheSun() {
 
   document.addEventListener("click", snakeControl);
   up.addEventListener("click", moveUp);
-  // down.addEventListener("mousedown", moveDown);
+  down.addEventListener("mousedown", moveDown);
   left.addEventListener("click", moveLeft);
   right.addEventListener("click", moveRight);
 }
