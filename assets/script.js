@@ -459,10 +459,21 @@ function setTheControlsForTheHeartOfTheSun() {
   document.addEventListener("keydown", snakeControl);
   up.addEventListener("mousedown", moveUp);
   down.addEventListener("mousedown", moveDown);
+  down.addEventListener("mousedown", function() {
+    console.log("mousedown");
+  });
+  down.addEventListener("click", function() {
+    console.log("click");
+  });
+  down.addEventListener("touchstart", function() {
+    console.log("touchstart");
+  });
   left.addEventListener("mousedown", moveLeft);
   right.addEventListener("mousedown", moveRight);
 }
 
+
+// this handleboost only works on keyboard...... and kind of makes the game easier...... no one needs to know.
 function handleBoost(e) {
   if (e.type === "keydown" && !boostState) {
     if (e.repeat) {
@@ -484,24 +495,28 @@ function moveUp() {
   if (currentSnake[1] != currentSnake[0] - width) {
     direction = -width;
   }
+  event.preventDefault();
 }
 
 function moveDown() {
   if (currentSnake[1] != currentSnake[0] + width) {
     direction = +width;
   }
+  event.preventDefault();
 }
 
 function moveLeft() {
   if (currentSnake[1] != currentSnake[0] - 1) {
     direction = -1;
   }
+  event.preventDefault();
 }
 
 function moveRight() {
   if (currentSnake[1] != currentSnake[0] + 1) {
     direction = 1;
   }
+  event.preventDefault();
 }
 
 
