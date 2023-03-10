@@ -457,27 +457,14 @@ function setTheControlsForTheHeartOfTheSun() {
   document.addEventListener("keyup", handleBoost);
 
   document.addEventListener("keydown", snakeControl);
-  up.addEventListener("click", moveUp);
-  down.addEventListener("click", moveDown);
-  left.addEventListener("click", moveLeft);
-  right.addEventListener("click", moveRight);
-
-  up.addEventListener("touchstart", moveUp);
-  up.addEventListener("touchstart", handleBoost);
-  up.addEventListener("touchend", handleBoost);
-  down.addEventListener("touchstart", moveDown);
-  down.addEventListener("touchstart", handleBoost);
-  down.addEventListener("touchend", handleBoost);
-  left.addEventListener("touchstart", moveLeft);
-  left.addEventListener("touchstart", handleBoost);
-  left.addEventListener("touchend", handleBoost);
-  right.addEventListener("touchstart", moveRight);
-  right.addEventListener("touchstart", handleBoost);
-  right.addEventListener("touchend", handleBoost);
+  up.addEventListener("mousedown", moveUp);
+  down.addEventListener("mousedown", moveDown);
+  left.addEventListener("mousedown", moveLeft);
+  right.addEventListener("mousedown", moveRight);
 }
 
 function handleBoost(e) {
-  if (e.type === "keydown" || e.type === "touchstart" && !boostState) {
+  if (e.type === "keydown" && !boostState) {
     if (e.repeat) {
       return;
     }
@@ -534,15 +521,15 @@ let pressHoldEvent = new CustomEvent("pressHold");
 let pressHoldDuration = 1;
 
 // Listening for the mouse and touch events
-boost.addEventListener("mouseup", notPressingDown, false);
-boost.addEventListener("mousedown", pressingDown, false);
-boost.addEventListener("mouseleave", notPressingDown, false);
+boost.addEventListener("mouseup", notPressingDown);
+boost.addEventListener("mousedown", pressingDown);
+boost.addEventListener("mouseleave", notPressingDown);
 
-boost.addEventListener("touchstart", pressingDown, false);
-boost.addEventListener("touchend", notPressingDown, false);
+boost.addEventListener("touchstart", pressingDown);
+boost.addEventListener("touchend", notPressingDown);
 
 // Listening for our custom pressHold event
-boost.addEventListener("pressHold", doSomething, false);
+boost.addEventListener("pressHold", doSomething);
 
 function pressingDown(e) {
   // Start the timer
