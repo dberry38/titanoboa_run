@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
   seconds.innerHTML = "00";
   tenths.innerHTML = "00";
 
-  boost.addEventListener("mouseup", notPressingDown, false);
+  // boost.addEventListener("mouseup", notPressingDown, false);
   createBoard();
 
   startScreen.addEventListener("click", okGO);
@@ -172,13 +172,7 @@ const createBoard = () => {
 const startGame = () => {
   let squares = document.querySelectorAll(".grid div");
 
-  setStyling(squares);
-
-  document.addEventListener("keydown", snakeControl);
-  up.addEventListener("click", moveUp);
-  down.addEventListener("click", moveDown);
-  left.addEventListener("click", moveLeft);
-  right.addEventListener("click", moveRight);
+  setStyling();
 
   minutes.innerHTML = "00";
   seconds.innerHTML = "00";
@@ -202,14 +196,14 @@ const startGame = () => {
   interval = setInterval(moveOutcome, intervalTime);
 
   randomBug(squares);
-  setHandleBoost();
+  setTheControlsForTheHeartOfTheSun();
   musicMatch();
   randomBroccoli(squares);
   clearInterval(startTime);
   stopWatchInterval = setInterval(startTime, 10);
 };
 
-const setStyling = (squares) => {
+const setStyling = () => {
   popup.style.display = "none";
   submitModal.style.display = "none";
   playerInput.style.display = "flex";
@@ -455,18 +449,28 @@ function snakeControl() {
   }
 }
 
-// experimenting here --- pressing Shift (either side) now boosts the snake
-
 // restructured this and I think I just made the boost button useless, holding down direction keys now boosts the snake
 // definitely still need the boost button for mobile users
 // it broke, had to wrap the addeventlisteners in a function so it could be called at start of game.
-function setHandleBoost() {
+function setTheControlsForTheHeartOfTheSun() {
   document.addEventListener("keydown", handleBoost);
   document.addEventListener("keyup", handleBoost);
+
+  document.addEventListener("keydown", snakeControl);
+  up.addEventListener("click", moveUp);
+  down.addEventListener("click", moveDown);
+  left.addEventListener("click", moveLeft);
+  right.addEventListener("click", moveRight);
+
+  up.addEventListener("touchstart", moveUp);
+  down.addEventListener("touchstart", moveDown);
+  down.addEventListener("touchstart", handleBoost);
+  left.addEventListener("touchstart", moveLeft);
+  right.addEventListener("touchstart", moveRight);
 }
 
 function handleBoost(e) {
-  if (e.type === "keydown" && !boostState) {
+  if (e.type === "keydown" || e.type === "touchstart" && !boostState) {
     if (e.repeat) {
       return;
     }
@@ -506,9 +510,7 @@ function moveRight() {
   }
 }
 
-// ^^^this is all that's left of the code i thought would work
 
-// i thought i was slick but i had to go back to kirupa.com
 
 // furthur meditations into presshold events
 // borrowed from https://www.kirupa.com/html5/press_and_hold.htm
@@ -577,6 +579,8 @@ function doSomething(e) {
   }
 }
 // extent of borrowed code from kirupa ^^^^^^^^^^^^^^^^
+
+
 
 // ok cool i finally got this working, dont have to reset the burnt class attribute apparently.
 function explodeySnake(squares) {
