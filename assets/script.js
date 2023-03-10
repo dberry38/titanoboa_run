@@ -463,10 +463,17 @@ function setTheControlsForTheHeartOfTheSun() {
   right.addEventListener("click", moveRight);
 
   up.addEventListener("touchstart", moveUp);
+  up.addEventListener("touchstart", handleBoost);
+  up.addEventListener("touchend", handleBoost);
   down.addEventListener("touchstart", moveDown);
   down.addEventListener("touchstart", handleBoost);
+  down.addEventListener("touchend", handleBoost);
   left.addEventListener("touchstart", moveLeft);
+  left.addEventListener("touchstart", handleBoost);
+  left.addEventListener("touchend", handleBoost);
   right.addEventListener("touchstart", moveRight);
+  right.addEventListener("touchstart", handleBoost);
+  right.addEventListener("touchend", handleBoost);
 }
 
 function handleBoost(e) {
