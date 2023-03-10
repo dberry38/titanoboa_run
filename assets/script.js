@@ -163,7 +163,7 @@ const renderScores = () => {
 
 const createBoard = () => {
   popup.getElementsByClassName.display = "none";
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 100; i++) {
     let div = document.createElement("div");
     grid.appendChild(div);
   }
