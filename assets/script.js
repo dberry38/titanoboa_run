@@ -279,18 +279,18 @@ function moveOutcome() {
     hardMusic.pause();
 
     // removing all these event listeners here prevents bugs on the endgame screen
-    up.removeEventListener("click", moveUp);
-    down.removeEventListener("click", moveDown);
-    left.removeEventListener("click", moveLeft);
-    right.removeEventListener("click", moveRight);
-
-    document.removeEventListener("keydown", snakeControl);
-
     document.removeEventListener("keydown", handleBoost);
     document.removeEventListener("keyup", handleBoost);
 
+    document.removeEventListener("keydown", snakeControl);
+
     boost.removeEventListener("mousedown", pressingDown, false);
     boost.removeEventListener("touchstart", pressingDown, false);
+
+    up.removeEventListener("touchstart", moveUp);
+    down.removeEventListener("touchstart", moveDown);
+    left.removeEventListener("touchstart", moveLeft);
+    right.removeEventListener("touchstart", moveRight);
 
     notPressingDown();
 
@@ -525,6 +525,7 @@ boost.addEventListener("mouseleave", notPressingDown);
 
 boost.addEventListener("touchstart", pressingDown);
 boost.addEventListener("touchend", notPressingDown);
+
 up.addEventListener("touchstart", moveUp);
 down.addEventListener("touchstart", moveDown);
 left.addEventListener("touchstart", moveLeft);
