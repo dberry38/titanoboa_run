@@ -455,6 +455,8 @@ function snakeControl() {
 function setTheControlsForTheHeartOfTheSun() {
   document.addEventListener("keydown", handleBoost);
   document.addEventListener("keyup", handleBoost);
+
+  document.addEventListener("keydown", snakeControl);
 }
 
 
