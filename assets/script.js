@@ -455,8 +455,14 @@ function snakeControl() {
 function setTheControlsForTheHeartOfTheSun() {
   document.addEventListener("keydown", handleBoost);
   document.addEventListener("keyup", handleBoost);
+  boost.addEventListener("touchstart", pressingDown);
 
   document.addEventListener("keydown", snakeControl);
+
+  up.addEventListener("touchstart", moveUp);
+  down.addEventListener("touchstart", moveDown);
+  left.addEventListener("touchstart", moveLeft);
+  right.addEventListener("touchstart", moveRight);
 }
 
 
@@ -530,6 +536,7 @@ up.addEventListener("touchstart", moveUp);
 down.addEventListener("touchstart", moveDown);
 left.addEventListener("touchstart", moveLeft);
 right.addEventListener("touchstart", moveRight);
+
 
 // Listening for our custom pressHold event
 boost.addEventListener("pressHold", doSomething);
